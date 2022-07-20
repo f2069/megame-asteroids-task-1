@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 8605442527913839763}
   - component: {fileID: 8605442527913839762}
   - component: {fileID: 8605442527913839765}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ship
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -133,8 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec6a42115ad486287409ad94e6c39c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0.6
-  accelerationSpeed: 0.3
+  maxSpeed: 15
+  accelerationSpeed: 10
   rotateSpeed: 225
 --- !u!114 &8605442527913839764
 MonoBehaviour:

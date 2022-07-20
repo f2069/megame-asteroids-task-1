@@ -4,6 +4,9 @@ namespace MegameAsteroids.Models.Movement {
     public abstract class BaseMovement {
         protected readonly float MaxSpeed;
 
+        public virtual Vector2 Direction { get; set; }
+        public virtual float TotalDistance { get; protected set; }
+
         private readonly Camera _mainCamera;
 
         protected BaseMovement(Camera mainCamera, float maxSpeed) {
@@ -20,6 +23,6 @@ namespace MegameAsteroids.Models.Movement {
             return _mainCamera.ViewportToWorldPoint(viewportPoint);
         }
 
-        public abstract Vector2 GetNextPosition(Vector2 currentPosition);
+        public abstract Vector2 GetNextPosition(Vector2 currentPosition, float deltaTime);
     }
 }

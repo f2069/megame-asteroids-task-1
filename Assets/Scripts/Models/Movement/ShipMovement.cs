@@ -7,24 +7,33 @@ namespace MegameAsteroids.Models.Movement {
         private readonly float _accelerationSpeed;
         private readonly float _rotateSpeed;
 
-        private Vector2 ForwardVector => Quaternion.Euler(0, 0, _rotationDegrees) * Vector3.up;
-        private Vector2 Acceleration { get; set; }
+        private Vector2 _acceleration;
 
         private float _rotationDegrees;
         private bool _isAccelerate;
 
-        public ShipMovement(Camera mainCamera, float maxSpeed, float accelerationSpeed, float rotateSpeed)
+        private float _currentSpeed;
+
+        public override Vector2 Direction => Quaternion.Euler(0, 0, _rotationDegrees) * Vector3.up;
+
+        public ShipMovement(Camera mainCamera,
+                            float maxSpeed,
+                            float accelerationSpeed,
+                            float rotateSpeed,
+                            float rigidBodyRotation)
             : base(mainCamera, maxSpeed) {
             _accelerationSpeed = accelerationSpeed;
             _rotateSpeed = rotateSpeed;
+
+            _rotationDegrees = rigidBodyRotation;
         }
 
-        public override Vector2 GetNextPosition(Vector2 currentPosition)
-            => ScreenLoopPosition(currentPosition + Acceleration);
+        public override Vector2 GetNextPosition(Vector2 currentPosition, float deltaTime)
+            => ScreenLoopPosition(currentPosition + _acceleration);
 
         public void Accelerate(float deltaTime) {
-            Acceleration += ForwardVector * (_accelerationSpeed * deltaTime);
-            Acceleration = Vector2.ClampMagnitude(Acceleration, MaxSpeed);
+            _acceleration += Direction * (_accelerationSpeed * deltaTime);
+            _acceleration = Vector2.ClampMagnitude(_acceleration, MaxSpeed);
         }
 
         public float Rotate(float deltaTime) {

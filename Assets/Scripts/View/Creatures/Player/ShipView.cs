@@ -3,11 +3,14 @@ using MegameAsteroids.Models.Movement;
 using MegameAsteroids.UserInput;
 using UnityEngine;
 
-namespace MegameAsteroids {
-    public class Ship : MonoBehaviour {
-        [SerializeField] private float maxSpeed;
-        [SerializeField] private float accelerationSpeed;
-        [SerializeField] private float rotateSpeed;
+namespace MegameAsteroids.View.Creatures.Player {
+    [SelectionBase, RequireComponent(typeof(Rigidbody2D))]
+    public class ShipView : MonoBehaviour {
+        [SerializeField] private float maxSpeed = 20f;
+        [SerializeField] private float accelerationSpeed = 15f;
+        [SerializeField] [Range(0f, 360f)] private float rotateSpeed = 180f;
+
+        public Vector2 ShotDirection => _shipMovement.Direction;
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
 
@@ -26,7 +29,15 @@ namespace MegameAsteroids {
             _rigidBody = GetComponent<Rigidbody2D>();
             _audioSource = GetComponent<AudioSource>();
 
-            _shipMovement = new ShipMovement(_mainCamera, maxSpeed, accelerationSpeed, rotateSpeed);
+            var fixedDeltaTime = Time.fixedDeltaTime;
+
+            _shipMovement = new ShipMovement(
+                _mainCamera,
+                maxSpeed * fixedDeltaTime,
+                accelerationSpeed * fixedDeltaTime,
+                rotateSpeed,
+                _rigidBody.rotation
+            );
         }
 
         private void Start() {
@@ -50,7 +61,7 @@ namespace MegameAsteroids {
         private void FixedUpdate() {
             var deltaTime = Time.deltaTime;
 
-            var newPosition = _shipMovement.GetNextPosition(_rigidBody.position);
+            var newPosition = _shipMovement.GetNextPosition(_rigidBody.position, deltaTime);
             _rigidBody.position = newPosition;
 
             var newAngle = _shipMovement.Rotate(deltaTime);

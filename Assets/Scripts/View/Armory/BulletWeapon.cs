@@ -1,8 +1,10 @@
 ﻿using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.UserInput;
+using MegameAsteroids.View.Creatures.Player;
+using MegameAsteroids.View.Weapons;
 using UnityEngine;
 
-namespace MegameAsteroids {
+namespace MegameAsteroids.View.Armory {
     public class BulletWeapon : MonoBehaviour {
         [SerializeField] private Transform prefab;
         [SerializeField] private Transform spawnPosition;
@@ -10,9 +12,12 @@ namespace MegameAsteroids {
         private readonly CompositeDisposable _trash = new CompositeDisposable();
 
         private UserInputHandler _userInput;
+        private ShipView _ship;
 
         private void Awake() {
             _userInput = GetComponent<UserInputHandler>();
+
+            _ship = GetComponent<ShipView>();
         }
 
         private void Start() {
@@ -23,7 +28,9 @@ namespace MegameAsteroids {
             => _trash.Dispose();
 
         private void OnFire() {
-            var go = Instantiate(prefab, spawnPosition.position, Quaternion.identity);
+            var go = Instantiate(prefab, spawnPosition.position, Quaternion.identity).GetComponent<BulletView>();
+
+            go.SetDirection(_ship.ShotDirection);
         }
     }
 }

@@ -9,38 +9,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5169120029830814544, guid: 9433a927d9746554a9853bedbe477138, type: 3}
       propertyPath: m_Name
-      value: BulletRed
+      value: BulletRed_Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5169120029830814550, guid: 9433a927d9746554a9853bedbe477138, type: 3}
