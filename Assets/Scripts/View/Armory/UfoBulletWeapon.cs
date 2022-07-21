@@ -8,10 +8,10 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace MegameAsteroids.View.Armory {
-    public class EnemyBulletWeapon : MonoBehaviour {
+    public class UfoBulletWeapon : MonoBehaviour {
         [SerializeField] private Transform prefab;
         [SerializeField] private Transform spawnPosition;
-        [SerializeField] private TimeRange shotDelay;
+        [SerializeField] private FloatRange shotDelay;
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
 
@@ -24,20 +24,26 @@ namespace MegameAsteroids.View.Armory {
         }
 
         private void Start() {
-            _coroutine = StartCoroutine(AttackState());
-
             if (!shotDelay.Valid()) {
                 throw new ArgumentException("Invalid values.", nameof(shotDelay));
             }
+
+            _trash.Retain(_ship.SubscribeOnDead(PlayerIsDead));
+
+            _coroutine = StartCoroutine(AttackState());
+        }
+
+        private void PlayerIsDead() {
+            TryStopCoroutine();
         }
 
         private IEnumerator AttackState() {
             while (enabled) {
+                yield return new WaitForSeconds(Random.Range(shotDelay.From, shotDelay.To));
+
                 var go = Instantiate(prefab, spawnPosition.position, Quaternion.identity).GetComponent<BulletView>();
 
                 go.SetDirection(_ship.transform.position - go.transform.position);
-
-                yield return new WaitForSeconds(Random.Range(2f, 5f));
             }
         }
 
@@ -50,7 +56,10 @@ namespace MegameAsteroids.View.Armory {
             _coroutine = null;
         }
 
-        private void OnDestroy()
-            => TryStopCoroutine();
+        private void OnDestroy() {
+            TryStopCoroutine();
+
+            _trash.Dispose();
+        }
     }
 }

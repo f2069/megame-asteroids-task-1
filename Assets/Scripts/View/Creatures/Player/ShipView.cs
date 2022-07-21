@@ -1,14 +1,21 @@
-﻿using MegameAsteroids.Core.Disposables;
+﻿using System;
+using MegameAsteroids.Components;
+using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.Models.Movement;
 using MegameAsteroids.UserInput;
 using UnityEngine;
 
 namespace MegameAsteroids.View.Creatures.Player {
-    [SelectionBase, RequireComponent(typeof(Rigidbody2D))]
+    [SelectionBase]
+    [RequireComponent(typeof(Rigidbody2D), typeof(AudioSource), typeof(HealthComponent))]
     public class ShipView : MonoBehaviour {
         [SerializeField] private float maxSpeed = 20f;
         [SerializeField] private float accelerationSpeed = 15f;
         [SerializeField] [Range(0f, 360f)] private float rotateSpeed = 180f;
+
+        public delegate void IsDead();
+
+        private event IsDead OnDeadEvent;
 
         public Vector2 ShotDirection => _shipMovement.Direction;
 
@@ -19,17 +26,24 @@ namespace MegameAsteroids.View.Creatures.Player {
         private Rigidbody2D _rigidBody;
         private AudioSource _audioSource;
         private ShipMovement _shipMovement;
+        private HealthComponent _heathComponent;
 
         private bool _isAccelerate;
+        private PlaySfxSound _playSfxSound;
 
         private void Awake() {
+            var fixedDeltaTime = Time.fixedDeltaTime;
+
             _mainCamera = Camera.main;
 
             _userInput = GetComponent<UserInputHandler>();
             _rigidBody = GetComponent<Rigidbody2D>();
             _audioSource = GetComponent<AudioSource>();
 
-            var fixedDeltaTime = Time.fixedDeltaTime;
+            _heathComponent = GetComponent<HealthComponent>();
+
+            // @todo fix this ?
+            _playSfxSound = GetComponent<PlaySfxSound>();
 
             _shipMovement = new ShipMovement(
                 _mainCamera,
@@ -43,6 +57,21 @@ namespace MegameAsteroids.View.Creatures.Player {
         private void Start() {
             _trash.Retain(_userInput.SubscribeOnAcceleration(OnAcceleration));
             _trash.Retain(_userInput.SubscribeOnRotate(OnRotate));
+
+            _trash.Retain(_heathComponent.SubscribeOnDead(OnLivesEnd));
+        }
+
+        public IDisposable SubscribeOnDead(IsDead call) {
+            OnDeadEvent += call;
+
+            return new ActionDisposable(() => { OnDeadEvent -= call; });
+        }
+
+        private void OnLivesEnd() {
+            OnDeadEvent?.Invoke();
+            _playSfxSound.PlayOnShot();
+
+            Destroy(gameObject);
         }
 
         private void OnDestroy()
