@@ -28,7 +28,7 @@ namespace MegameAsteroids.View.Spawners {
             SubscribeOnObject(target);
         }
 
-        private void ParticleDestroyed(IAsteroid target) {
+        private void ParticleDestroyed(IAsteroid target, Transform attacker) {
             // @todo unsubscribe ?
 
             OnSceneAmount = Math.Max(0, OnSceneAmount - 1);

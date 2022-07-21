@@ -1,6 +1,7 @@
 ﻿using System;
 using MegameAsteroids.Components;
 using MegameAsteroids.Core.Disposables;
+using MegameAsteroids.Core.Extensions;
 using MegameAsteroids.Core.Interfaces;
 using MegameAsteroids.Models.Movement;
 using UnityEngine;
@@ -10,10 +11,11 @@ namespace MegameAsteroids.View.Creatures.Ufo {
     [RequireComponent(
         typeof(Rigidbody2D),
         typeof(Collider2D),
-        typeof(PlaySfxSound))
-    ]
+        typeof(PlaySfxSound)
+    )]
     [RequireComponent(typeof(HealthComponent))]
     public class UfoView : MonoBehaviour, IUfo {
+        [SerializeField] private LayerMask destroyingLayers;
         [SerializeField] private float speed = 3.5f;
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
@@ -21,8 +23,9 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         private Camera _camera;
         private UfoMovement _movement;
         private Rigidbody2D _rigidBody;
-        private HealthComponent _heathComponent;
+        private IDamagable _heathComponent;
         private PlaySfxSound _playSfxSound;
+        private Collider2D _collider;
 
         private event IUfo.OnDestroyed OnDestroyEvent;
 
@@ -31,7 +34,8 @@ namespace MegameAsteroids.View.Creatures.Ufo {
 
             _movement = new UfoMovement(_camera, speed);
             _rigidBody = GetComponent<Rigidbody2D>();
-            _heathComponent = GetComponent<HealthComponent>();
+            _collider = GetComponent<Collider2D>();
+            _heathComponent = GetComponent<IDamagable>();
 
             // @todo fix this ?
             _playSfxSound = GetComponent<PlaySfxSound>();
@@ -51,6 +55,17 @@ namespace MegameAsteroids.View.Creatures.Ufo {
             _rigidBody.position = newPosition;
         }
 
+        private void OnTriggerEnter2D(Collider2D other) {
+            var isTotalDestroy = other.gameObject.IsInLayer(destroyingLayers);
+            if (!isTotalDestroy) {
+                return;
+            }
+
+            _collider.enabled = false;
+
+            _heathComponent.Kill(other.transform);
+        }
+
         public void SetDirection(Vector3 ufoDirection)
             => _movement.Direction = ufoDirection.normalized;
 
@@ -60,7 +75,7 @@ namespace MegameAsteroids.View.Creatures.Ufo {
             return new ActionDisposable(() => { OnDestroyEvent -= call; });
         }
 
-        private void OnDead() {
+        private void OnDead(Transform attacker) {
             OnDestroyEvent?.Invoke(this);
 
             _playSfxSound.PlayOnShot();

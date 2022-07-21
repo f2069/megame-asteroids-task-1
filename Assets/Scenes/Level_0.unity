@@ -539,15 +539,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018471368}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68f28b69762f4c0a9bb595408b74f25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startAmount: 1
   wavesDelay:
-    from: 20
-    to: 40
+    from: 2
+    to: 4
   startPrefab: {fileID: 7468149356794836685, guid: 726e5b9f58a3f2048b1b3f9675feaf81, type: 3}
   spawnHeightMargin: 0
 --- !u!1 &1096821571
@@ -806,6 +806,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8605442527913839764, guid: 60775cad9e59cb44d8af374519f7637f, type: 3}
       propertyPath: livesCount
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605442527913839764, guid: 60775cad9e59cb44d8af374519f7637f, type: 3}
+      propertyPath: healthPoint
       value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []

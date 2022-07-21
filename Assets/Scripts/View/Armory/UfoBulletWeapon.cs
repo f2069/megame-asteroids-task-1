@@ -28,6 +28,10 @@ namespace MegameAsteroids.View.Armory {
                 throw new ArgumentException("Invalid values.", nameof(shotDelay));
             }
 
+            if (_ship == null) {
+                return;
+            }
+
             _trash.Retain(_ship.SubscribeOnDead(PlayerIsDead));
 
             _coroutine = StartCoroutine(AttackState());

@@ -5,26 +5,37 @@ using UnityEngine;
 
 namespace MegameAsteroids.Components {
     public class HealthComponent : MonoBehaviour, IDamagable {
-        [SerializeField] private int livesCount = 1;
+        [SerializeField] private float healthPoint = 1f;
 
         private event IDamagable.OnDead OnDeadEvent;
 
         private bool _isDead;
 
-        public void TakeDamage() {
+        public void TakeDamage(float damageValue, Transform attacker) {
             if (_isDead) {
                 return;
             }
 
-            livesCount = Math.Max(0, livesCount - 1);
+            healthPoint = Math.Max(0, healthPoint - damageValue);
 
-            if (livesCount != 0) {
+            if (healthPoint != 0) {
                 return;
             }
 
             _isDead = true;
 
-            OnDeadEvent?.Invoke();
+            OnDeadEvent?.Invoke(attacker);
+        }
+
+        public void Kill(Transform attacker) {
+            if (_isDead) {
+                return;
+            }
+
+            healthPoint = 0;
+            _isDead = true;
+
+            OnDeadEvent?.Invoke(attacker);
         }
 
         public IDisposable SubscribeOnDead(IDamagable.OnDead call) {

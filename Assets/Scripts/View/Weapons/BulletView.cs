@@ -4,10 +4,14 @@ using MegameAsteroids.Models.Movement;
 using UnityEngine;
 
 namespace MegameAsteroids.View.Weapons {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(
+        typeof(Rigidbody2D),
+        typeof(Collider2D)
+    )]
     public class BulletView : MonoBehaviour, IBullet {
         [SerializeField] private float speed = 25f;
         [SerializeField] private LayerMask targetLayers;
+        [SerializeField] private float damageValue = 1f;
 
         private Camera _camera;
         private BulletMovement _movement;
@@ -47,8 +51,7 @@ namespace MegameAsteroids.View.Weapons {
             _collider.enabled = false;
 
             var damageComponent = other.GetComponent<IDamagable>();
-
-            damageComponent?.TakeDamage();
+            damageComponent?.TakeDamage(damageValue, gameObject.transform);
 
             // @todo Pool
             Destroy(gameObject);

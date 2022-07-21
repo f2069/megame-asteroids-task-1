@@ -133,6 +133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361eaf9c5d3d4f58a64e434a34207dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyingLayers:
+    serializedVersion: 2
+    m_Bits: 768
   speed: 3.5
 --- !u!114 &6689108222466564754
 MonoBehaviour:
@@ -146,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c14f155f6a4076b31f619a81331833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  livesCount: 1
+  healthPoint: 1
 --- !u!114 &1001179704983910553
 MonoBehaviour:
   m_ObjectHideFlags: 0

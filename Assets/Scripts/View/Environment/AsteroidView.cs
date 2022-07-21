@@ -13,8 +13,9 @@ namespace MegameAsteroids.View.Environment {
     [RequireComponent(
         typeof(Rigidbody2D),
         typeof(Collider2D),
-        typeof(PlaySfxSound))
-    ]
+        typeof(PlaySfxSound)
+    )]
+    [RequireComponent(typeof(HealthComponent))]
     public class AsteroidView : MonoBehaviour, IAsteroid {
         [SerializeField] private LayerMask totalDestroyLayers;
         [SerializeField] private LayerMask projectileLayers;
@@ -29,9 +30,12 @@ namespace MegameAsteroids.View.Environment {
         private AsteroidMovement _movement;
         private PlaySfxSound _sfxSound;
         private Vector2 _movementDirection;
+        private IDamagable _heathComponent;
 
         private event IAsteroid.OnDestroyed OnDestroyEvent;
         private event IAsteroid.OnSpawnParticle OnSpawnParticleEvent;
+
+        private readonly CompositeDisposable _trash = new CompositeDisposable();
 
         private void Awake() {
             _camera = Camera.main;
@@ -41,6 +45,12 @@ namespace MegameAsteroids.View.Environment {
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _sfxSound = GetComponent<PlaySfxSound>();
+
+            _heathComponent = GetComponent<IDamagable>();
+        }
+
+        private void Start() {
+            _trash.Retain(_heathComponent.SubscribeOnDead(OnDead));
         }
 
         private void FixedUpdate() {
@@ -65,9 +75,9 @@ namespace MegameAsteroids.View.Environment {
             return new ActionDisposable(() => { OnSpawnParticleEvent -= call; });
         }
 
-        private void OnTriggerEnter2D(Collider2D other) {
-            var isTotalDestroy = other.gameObject.IsInLayer(totalDestroyLayers);
-            var isPartiallyDestroyed = other.gameObject.IsInLayer(projectileLayers);
+        private void OnDead(Transform attacker) {
+            var isTotalDestroy = attacker.gameObject.IsInLayer(totalDestroyLayers);
+            var isPartiallyDestroyed = attacker.gameObject.IsInLayer(projectileLayers);
 
             if (!isTotalDestroy && !isPartiallyDestroyed) {
                 return;
@@ -77,19 +87,27 @@ namespace MegameAsteroids.View.Environment {
 
             _collider.enabled = false;
 
-            var damageComponent = other.GetComponent<IDamagable>();
-            damageComponent?.TakeDamage();
-
             if (isPartiallyDestroyed && particles.Count > 0) {
                 SpawnParticles();
             }
 
-            OnDestroyEvent?.Invoke(this);
+            OnDestroyEvent?.Invoke(this, attacker);
 
             SetDirection(Vector3.zero);
 
             // @todo Pool
             Destroy(gameObject);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other) {
+            var isTotalDestroy = other.gameObject.IsInLayer(totalDestroyLayers);
+            if (!isTotalDestroy) {
+                return;
+            }
+
+            _collider.enabled = false;
+
+            _heathComponent.Kill(other.transform);
         }
 
         private void SpawnParticles() {

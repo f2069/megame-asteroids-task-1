@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4669425278146612472}
   - component: {fileID: 4669425278146612479}
   - component: {fileID: 4669425278146612473}
+  - component: {fileID: 8742956204245913923}
   - component: {fileID: 6350229816102504151}
   - component: {fileID: 4669425278146612474}
   - component: {fileID: 4669425278146612475}
@@ -112,6 +113,19 @@ MonoBehaviour:
   particlesSpeed:
     from: 2
     to: 4
+--- !u!114 &8742956204245913923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669425278146612478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c14f155f6a4076b31f619a81331833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPoint: 1
 --- !u!114 &6350229816102504151
 MonoBehaviour:
   m_ObjectHideFlags: 0

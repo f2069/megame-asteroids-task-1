@@ -13,7 +13,7 @@ namespace MegameAsteroids.View.Managers {
         }
 
         private void PlayerIsDead() {
-            Debug.Log("End game");
+            Debug.Log("PlayerIsDead");
         }
 
         private void OnDisable()

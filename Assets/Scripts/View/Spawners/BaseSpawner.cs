@@ -35,6 +35,10 @@ namespace MegameAsteroids.View.Spawners {
 
         protected virtual void Start() {
             SpawnObjects(startAmount);
+
+            if (!wavesDelay.Valid()) {
+                throw new ArgumentException("Invalid values.", nameof(wavesDelay));
+            }
         }
 
         protected void TryStopCoroutine() {
