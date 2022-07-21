@@ -2,10 +2,10 @@
 
 namespace MegameAsteroids.Models.Movement {
     public abstract class BaseMovement {
-        protected readonly float MaxSpeed;
+        public float MaxSpeed { get; set; }
 
         public virtual Vector2 Direction { get; set; }
-        public virtual float TotalDistance { get; protected set; }
+        public float TotalDistance { get; protected set; }
 
         private readonly Camera _mainCamera;
 

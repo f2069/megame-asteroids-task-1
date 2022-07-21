@@ -21,7 +21,7 @@ namespace MegameAsteroids.View.Creatures.Player {
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
 
-        private Camera _mainCamera;
+        private Camera _camera;
         private UserInputHandler _userInput;
         private Rigidbody2D _rigidBody;
         private AudioSource _audioSource;
@@ -34,7 +34,7 @@ namespace MegameAsteroids.View.Creatures.Player {
         private void Awake() {
             var fixedDeltaTime = Time.fixedDeltaTime;
 
-            _mainCamera = Camera.main;
+            _camera = Camera.main;
 
             _userInput = GetComponent<UserInputHandler>();
             _rigidBody = GetComponent<Rigidbody2D>();
@@ -46,7 +46,7 @@ namespace MegameAsteroids.View.Creatures.Player {
             _playSfxSound = GetComponent<PlaySfxSound>();
 
             _shipMovement = new ShipMovement(
-                _mainCamera,
+                _camera,
                 maxSpeed * fixedDeltaTime,
                 accelerationSpeed * fixedDeltaTime,
                 rotateSpeed,

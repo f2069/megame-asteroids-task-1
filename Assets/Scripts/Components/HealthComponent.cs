@@ -7,9 +7,7 @@ namespace MegameAsteroids.Components {
     public class HealthComponent : MonoBehaviour, IDamagable {
         [SerializeField] private int livesCount = 1;
 
-        public delegate void OnDead();
-
-        private event OnDead OnDeadEvent;
+        private event IDamagable.OnDead OnDeadEvent;
 
         private bool _isDead;
 
@@ -29,7 +27,7 @@ namespace MegameAsteroids.Components {
             OnDeadEvent?.Invoke();
         }
 
-        public IDisposable SubscribeOnDead(OnDead call) {
+        public IDisposable SubscribeOnDead(IDamagable.OnDead call) {
             OnDeadEvent += call;
 
             return new ActionDisposable(() => { OnDeadEvent -= call; });

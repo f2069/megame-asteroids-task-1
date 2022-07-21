@@ -1,11 +1,19 @@
-﻿using MegameAsteroids.Components;
+﻿using System;
+using MegameAsteroids.Components;
 using MegameAsteroids.Core.Disposables;
+using MegameAsteroids.Core.Interfaces;
 using MegameAsteroids.Models.Movement;
 using UnityEngine;
 
 namespace MegameAsteroids.View.Creatures.Ufo {
-    [SelectionBase, RequireComponent(typeof(Rigidbody2D), typeof(HealthComponent))]
-    public class UfoView : MonoBehaviour {
+    [SelectionBase]
+    [RequireComponent(
+        typeof(Rigidbody2D),
+        typeof(Collider2D),
+        typeof(PlaySfxSound))
+    ]
+    [RequireComponent(typeof(HealthComponent))]
+    public class UfoView : MonoBehaviour, IUfo {
         [SerializeField] private float speed = 3.5f;
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
@@ -16,6 +24,8 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         private HealthComponent _heathComponent;
         private PlaySfxSound _playSfxSound;
 
+        private event IUfo.OnDestroyed OnDestroyEvent;
+
         private void Awake() {
             _camera = Camera.main;
 
@@ -25,9 +35,6 @@ namespace MegameAsteroids.View.Creatures.Ufo {
 
             // @todo fix this ?
             _playSfxSound = GetComponent<PlaySfxSound>();
-
-            // @todo replace this
-            SetDirection(Vector3.left);
         }
 
         private void Start() {
@@ -47,7 +54,15 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         public void SetDirection(Vector3 ufoDirection)
             => _movement.Direction = ufoDirection.normalized;
 
+        public IDisposable SubscribeOnDestroy(IUfo.OnDestroyed call) {
+            OnDestroyEvent += call;
+
+            return new ActionDisposable(() => { OnDestroyEvent -= call; });
+        }
+
         private void OnDead() {
+            OnDestroyEvent?.Invoke(this);
+
             _playSfxSound.PlayOnShot();
 
             // @todo Pool

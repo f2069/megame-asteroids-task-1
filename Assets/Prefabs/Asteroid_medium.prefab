@@ -44,6 +44,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
+      propertyPath: particlesSpeed.to
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
+      propertyPath: particlesSpeed.from
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: particles.Array.size
       value: 2
       objectReference: {fileID: 0}
