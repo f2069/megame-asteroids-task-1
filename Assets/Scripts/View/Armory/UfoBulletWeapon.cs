@@ -2,8 +2,8 @@
 using System.Collections;
 using MegameAsteroids.Core.Data;
 using MegameAsteroids.Core.Disposables;
+using MegameAsteroids.Core.Interfaces;
 using MegameAsteroids.View.Creatures.Player;
-using MegameAsteroids.View.Weapons;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -41,9 +41,10 @@ namespace MegameAsteroids.View.Armory {
             while (enabled) {
                 yield return new WaitForSeconds(Random.Range(shotDelay.From, shotDelay.To));
 
-                var go = Instantiate(prefab, spawnPosition.position, Quaternion.identity).GetComponent<BulletView>();
+                var goTransform = Instantiate(prefab, spawnPosition.position, Quaternion.identity);
+                var bullet = goTransform.GetComponent<IBullet>();
 
-                go.SetDirection(_ship.transform.position - go.transform.position);
+                bullet.SetDirection(_ship.transform.position - goTransform.position);
             }
         }
 

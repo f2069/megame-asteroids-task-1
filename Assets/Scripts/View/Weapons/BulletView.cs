@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MegameAsteroids.View.Weapons {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class BulletView : MonoBehaviour {
+    public class BulletView : MonoBehaviour, IBullet {
         [SerializeField] private float speed = 25f;
         [SerializeField] private LayerMask targetLayers;
 

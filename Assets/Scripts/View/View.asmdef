@@ -1,0 +1,19 @@
+{
+    "name": "View",
+    "rootNamespace": "MegameAsteroids",
+    "references": [
+        "GUID:b16199a4a8b080d43ab2344b7e73fc36",
+        "GUID:40cc537b6f12c2c4db7149db5a15f229",
+        "GUID:d05b8ea65aeaed949bbb835f0adf5c14",
+        "GUID:f2cfa01aff3bea14e9bfed4bd29a0c44"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

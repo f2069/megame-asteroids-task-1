@@ -1,8 +1,8 @@
 ﻿using MegameAsteroids.Core.Disposables;
+using MegameAsteroids.Core.Interfaces;
 using MegameAsteroids.Core.Utils;
 using MegameAsteroids.UserInput;
 using MegameAsteroids.View.Creatures.Player;
-using MegameAsteroids.View.Weapons;
 using UnityEngine;
 
 namespace MegameAsteroids.View.Armory {
@@ -37,7 +37,9 @@ namespace MegameAsteroids.View.Armory {
                 return;
             }
 
-            var go = Instantiate(prefab, spawnPosition.position, Quaternion.identity).GetComponent<BulletView>();
+            var go = Instantiate(prefab, spawnPosition.position, Quaternion.identity)
+                .GetComponent<IBullet>();
+
             go.SetDirection(_ship.ShotDirection);
 
             _shotCooldown.Reset();

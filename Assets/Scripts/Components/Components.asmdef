@@ -1,0 +1,16 @@
+{
+    "name": "Components",
+    "rootNamespace": "MegameAsteroids",
+    "references": [
+        "GUID:b16199a4a8b080d43ab2344b7e73fc36"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
