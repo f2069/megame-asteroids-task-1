@@ -12,13 +12,16 @@ namespace MegameAsteroids.View.Environment {
         [SerializeField] private LayerMask totalDestroyLayers;
         [SerializeField] private LayerMask projectileLayers;
         [SerializeField] private FloatRange speedRange;
-        [SerializeField] private List<Transform> particles;
+
+        [Space] [SerializeField] private List<Transform> particles;
+        [SerializeField] [Range(0f, 360f)] private float particlesAngle = 45f;
 
         private Camera _camera;
         private Rigidbody2D _rigidBody;
         private Collider2D _collider;
         private AsteroidMovement _movement;
         private PlaySfxSound _sfxSound;
+        private Vector2 _movementDirection;
 
         private void Awake() {
             _camera = Camera.main;
@@ -30,7 +33,8 @@ namespace MegameAsteroids.View.Environment {
             _sfxSound = GetComponent<PlaySfxSound>();
 
             // @todo replace this
-            SetDirection(Vector3.left + Vector3.down * .5f);
+            var currentDirection = Vector3.left * Random.Range(0f, 10f) + Vector3.down * Random.Range(0f, 10f);
+            SetDirection(currentDirection);
         }
 
         private void FixedUpdate() {
@@ -58,22 +62,51 @@ namespace MegameAsteroids.View.Environment {
             var damageComponent = other.GetComponent<IDamagable>();
             damageComponent?.TakeDamage();
 
-            if (isTotalDestroy || particles.Count == 0) {
-                TotalDestroy();
-            } else {
+            if (isPartiallyDestroyed && particles.Count > 0) {
                 SpawnParticles();
+            } else {
+                TotalDestroy();
             }
+
+            SetDirection(Vector3.zero);
 
             // @todo Pool
             Destroy(gameObject);
         }
 
         private void TotalDestroy() {
-            Debug.Log("TotalDestroy");
         }
 
         private void SpawnParticles() {
-            Debug.Log("SpawnParticles");
+            _movementDirection = _movement.Direction;
+
+            var currentPosition = _rigidBody.transform.position;
+            var eps = 1;
+
+            foreach (var particle in particles) {
+                Instantiate(particle, currentPosition, Quaternion.identity)
+                    .GetComponent<AsteroidView>()
+                    .SetDirection(Quaternion.Euler(0, 0, particlesAngle * eps) * _movementDirection);
+
+                eps = -eps;
+            }
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos() {
+            if (!Application.isPlaying) {
+                return;
+            }
+
+            var movementDirection = _movement.Direction == Vector2.zero ? _movementDirection : _movement.Direction;
+            var position = transform.position;
+            var red = new Color(1f, 0f, 0f, 1f);
+
+            Debug.DrawRay(position, movementDirection * 3f, red);
+
+            Debug.DrawRay(position, Quaternion.Euler(0, 0, particlesAngle) * movementDirection * 2f);
+            Debug.DrawRay(position, Quaternion.Euler(0, 0, particlesAngle * -1) * movementDirection * 2f);
+        }
+#endif
     }
 }

@@ -619,30 +619,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.64
+      value: 5.4
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.03
+      value: 6.59
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
@@ -663,7 +647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612478, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
@@ -677,6 +661,10 @@ PrefabInstance:
     - target: {fileID: 7468149356794836683, guid: 726e5b9f58a3f2048b1b3f9675feaf81, type: 3}
       propertyPath: m_Name
       value: Ufo
+      objectReference: {fileID: 0}
+    - target: {fileID: 7468149356794836683, guid: 726e5b9f58a3f2048b1b3f9675feaf81, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7468149356794836685, guid: 726e5b9f58a3f2048b1b3f9675feaf81, type: 3}
       propertyPath: m_RootOrder
@@ -753,7 +741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8605442527913839764, guid: 60775cad9e59cb44d8af374519f7637f, type: 3}
       propertyPath: livesCount
-      value: 1
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60775cad9e59cb44d8af374519f7637f, type: 3}

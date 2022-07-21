@@ -111,6 +111,7 @@ MonoBehaviour:
   particles:
   - {fileID: 8491094630463638426, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
   - {fileID: 8491094630463638426, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
+  particlesAngle: 45
 --- !u!114 &6350229816102504151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 962f94040bdfb2b41998d3f71b4796bb, type: 3}
+  playOnAwake: 0
 --- !u!50 &4669425278146612474
 Rigidbody2D:
   serializedVersion: 4
