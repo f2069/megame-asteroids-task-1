@@ -1,13 +1,9 @@
-﻿using UnityEngine;
-
-namespace MegameAsteroids.Models.Reward {
+﻿namespace MegameAsteroids.Models.Reward {
     public class RewardModel {
         public int CurrentScore { get; private set; }
 
-        public void AddReward(in int points) {
+        public void AddReward(int points) {
             CurrentScore += points;
-
-            Debug.Log(CurrentScore);
         }
     }
 }

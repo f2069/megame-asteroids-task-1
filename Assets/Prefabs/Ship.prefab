@@ -184,7 +184,7 @@ MonoBehaviour:
   playerLayers:
     serializedVersion: 2
     m_Bits: 64
-  playerTags: 01000000
+  playerTags: 02000000
 --- !u!114 &8605442527913839760
 MonoBehaviour:
   m_ObjectHideFlags: 0
