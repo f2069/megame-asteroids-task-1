@@ -6,13 +6,27 @@ using UnityEngine;
 namespace MegameAsteroids.Components {
     public class HealthComponent : MonoBehaviour, IDamagable {
         [SerializeField] private float healthPoint = 1f;
+        public bool IsImmortal { get; private set; }
 
         private event IDamagable.OnDead OnDeadEvent;
 
         private bool _isDead;
+        private float _startHealthPoint;
+
+        private void Awake() {
+            _startHealthPoint = healthPoint;
+        }
+
+        public void ResetState() {
+            healthPoint = _startHealthPoint;
+            _isDead = IsImmortal = false;
+        }
+
+        public void SetImmortal(bool immortalState)
+            => IsImmortal = immortalState;
 
         public void TakeDamage(float damageValue, Transform attacker) {
-            if (_isDead) {
+            if (_isDead || IsImmortal) {
                 return;
             }
 
@@ -28,7 +42,7 @@ namespace MegameAsteroids.Components {
         }
 
         public void Kill(Transform attacker) {
-            if (_isDead) {
+            if (_isDead || IsImmortal) {
                 return;
             }
 

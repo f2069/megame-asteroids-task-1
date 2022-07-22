@@ -37,13 +37,18 @@ namespace MegameAsteroids.View.Armory {
             _coroutine = StartCoroutine(AttackState());
         }
 
-        private void PlayerIsDead() {
-            TryStopCoroutine();
-        }
+        private void PlayerIsDead()
+            => TryStopCoroutine();
 
         private IEnumerator AttackState() {
             while (enabled) {
                 yield return new WaitForSeconds(Random.Range(shotDelay.From, shotDelay.To));
+
+                if (_ship == null) {
+                    TryStopCoroutine();
+
+                    yield break;
+                }
 
                 var goTransform = Instantiate(prefab, spawnPosition.position, Quaternion.identity);
                 var bullet = goTransform.GetComponent<IBullet>();

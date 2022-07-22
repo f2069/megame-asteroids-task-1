@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using MegameAsteroids.Components;
 using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.Core.Extensions;
@@ -20,10 +21,15 @@ namespace MegameAsteroids.View.Creatures.Player {
         typeof(UserInputHandler)
     )]
     public class ShipView : MonoBehaviour {
-        [SerializeField] private float maxSpeed = 20f;
+        [Header("Respawn")] [SerializeField] private byte livesAmount = 3;
+        [SerializeField] private float immortalTime = 3f;
+        [SerializeField] private float blinkTime = .5f;
+
+        [Header("Movement")] [SerializeField] private float maxSpeed = 20f;
         [SerializeField] private float accelerationSpeed = 15f;
         [SerializeField] [Range(0f, 360f)] private float rotateSpeed = 180f;
-        [SerializeField] private LayerMask destroyingLayers;
+
+        [Header("Damage")] [SerializeField] private LayerMask destroyingLayers;
 
         public delegate void IsDead();
 
@@ -41,14 +47,17 @@ namespace MegameAsteroids.View.Creatures.Player {
         private IDamagable _heathComponent;
         private PlaySfxSound _playSfxSound;
         private Collider2D _collider;
+        private SpriteRenderer _spriteRenderer;
 
         private bool _isAccelerate;
+        private Vector3 _startPosition;
 
         private void Awake() {
             var fixedDeltaTime = Time.fixedDeltaTime;
 
             _camera = Camera.main;
 
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _userInput = GetComponent<UserInputHandler>();
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
@@ -66,13 +75,15 @@ namespace MegameAsteroids.View.Creatures.Player {
                 rotateSpeed,
                 _rigidBody.rotation
             );
+
+            _startPosition = transform.position;
         }
 
         private void Start() {
             _trash.Retain(_userInput.SubscribeOnAcceleration(OnAcceleration));
             _trash.Retain(_userInput.SubscribeOnRotate(OnRotate));
 
-            _trash.Retain(_heathComponent.SubscribeOnDead(OnDead));
+            _trash.Retain(_heathComponent.SubscribeOnDead(OnHealthEnd));
         }
 
         private void OnDestroy()
@@ -104,20 +115,55 @@ namespace MegameAsteroids.View.Creatures.Player {
             return new ActionDisposable(() => { OnDeadEvent -= call; });
         }
 
-        private void OnDead(Transform _) {
+        private void OnHealthEnd(Transform _) {
             _collider.enabled = false;
 
-            OnDeadEvent?.Invoke();
             _playSfxSound.PlayOnShot();
 
-            Destroy(gameObject);
+            livesAmount = (byte) Math.Max(0, livesAmount - 1);
+            if (livesAmount == 0) {
+                OnDeadEvent?.Invoke();
 
-            // @todo check lives & respawn
+                Destroy(gameObject);
+
+                return;
+            }
+
+            Respawn();
+        }
+
+        private void Respawn() {
+            _spriteRenderer.enabled = false;
+
+            _userInput.SwitchLock(true);
+            _shipMovement.ResetState();
+
+            _heathComponent.ResetState();
+            _heathComponent.SetImmortal(true);
+
+            transform.position = _startPosition;
+
+            StartCoroutine(Blink());
+
+            _userInput.SwitchLock(false);
+        }
+
+        private IEnumerator Blink() {
+            var steps = Mathf.CeilToInt(immortalTime / blinkTime);
+
+            for (var i = 0; i < steps; i++) {
+                yield return new WaitForSeconds(blinkTime);
+                _spriteRenderer.enabled = !_spriteRenderer.enabled;
+            }
+
+            _heathComponent.SetImmortal(false);
+            _spriteRenderer.enabled = true;
+            _collider.enabled = true;
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
             var isTotalDestroy = other.gameObject.IsInLayer(destroyingLayers);
-            if (!isTotalDestroy) {
+            if (!isTotalDestroy || _heathComponent.IsImmortal) {
                 return;
             }
 
