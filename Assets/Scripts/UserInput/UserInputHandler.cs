@@ -15,6 +15,8 @@ namespace MegameAsteroids.UserInput {
         private event OnRotated OnRotatedEvent;
         private event OnAccelerated OnAccelerationEvent;
 
+        private bool _isLocked;
+
         private void Update() {
             if (!CanProcessInput()) {
                 return;
@@ -26,23 +28,26 @@ namespace MegameAsteroids.UserInput {
         }
 
         // @todo fix this
-        private bool CanProcessInput() {
-            return true;
-        }
+        private bool CanProcessInput()
+            => !_isLocked;
 
         private void GetAcceleration() {
-            var accelerate = Mathf.Max(Input.GetAxisRaw(InputConstants.AxisNameVertical), 0f);
+            // var mouseButtonPressed = Input.GetButton(InputConstants.ButtonNameAccelerateMouse);
+            // OnAccelerationEvent?.Invoke(mouseButtonPressed ? 1 : 0);
 
+            var accelerate = Input.GetAxisRaw(InputConstants.AxisNameVertical);
             OnAccelerationEvent?.Invoke(accelerate);
         }
 
         private void GetRotation() {
-            var rotate = Input.GetAxisRaw(InputConstants.AxisNameHorizontal) * -1;
+            // var mousePosition = Input.mousePosition;
+            var rotate = Input.GetAxisRaw(InputConstants.AxisNameHorizontal);
 
             OnRotatedEvent?.Invoke(rotate);
         }
 
         private void GetFireInputDown() {
+            // if (Input.GetButtonDown(InputConstants.ButtonNameFireMouse)) {
             if (Input.GetButtonDown(InputConstants.ButtonNameFire)) {
                 OnFireEvent?.Invoke();
             }
@@ -64,6 +69,10 @@ namespace MegameAsteroids.UserInput {
             OnAccelerationEvent += call;
 
             return new ActionDisposable(() => { OnAccelerationEvent -= call; });
+        }
+
+        public void SwitchLock(bool setLock) {
+            _isLocked = setLock;
         }
     }
 }
