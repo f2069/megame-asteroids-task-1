@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 372762376}
   m_Layer: 0
   m_Name: AudioSfxSource
-  m_TagString: Untagged
+  m_TagString: SfxAudioSource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -532,6 +532,7 @@ MonoBehaviour:
   startSpeedRange:
     from: 0.5
     to: 2
+  rewardManager: {fileID: 8605442528874136994}
 --- !u!114 &1018471372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +540,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018471368}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68f28b69762f4c0a9bb595408b74f25e, type: 3}
   m_Name: 
@@ -550,6 +551,7 @@ MonoBehaviour:
     to: 4
   startPrefab: {fileID: 7468149356794836685, guid: 726e5b9f58a3f2048b1b3f9675feaf81, type: 3}
   spawnHeightMargin: 0
+  rewardManager: {fileID: 8605442528874136994}
 --- !u!1 &1096821571
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,9 +810,16 @@ PrefabInstance:
       propertyPath: livesCount
       value: 1000
       objectReference: {fileID: 0}
-    - target: {fileID: 8605442527913839764, guid: 60775cad9e59cb44d8af374519f7637f, type: 3}
-      propertyPath: healthPoint
-      value: 1000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60775cad9e59cb44d8af374519f7637f, type: 3}
+--- !u!114 &8605442528874136994 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 670747903312024674, guid: 60775cad9e59cb44d8af374519f7637f, type: 3}
+  m_PrefabInstance: {fileID: 8605442528874136993}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8869ce5cea4c228f5407662b140d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

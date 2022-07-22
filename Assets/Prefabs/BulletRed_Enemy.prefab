@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5169120029830814544, guid: 9433a927d9746554a9853bedbe477138, type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: EnemyProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 5169120029830814549, guid: 9433a927d9746554a9853bedbe477138, type: 3}
       propertyPath: targetLayers.m_Bits

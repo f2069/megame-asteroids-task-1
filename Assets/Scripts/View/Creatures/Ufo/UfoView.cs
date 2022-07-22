@@ -13,10 +13,16 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         typeof(Collider2D),
         typeof(PlaySfxSound)
     )]
-    [RequireComponent(typeof(HealthComponent))]
+    [RequireComponent(
+        typeof(HealthComponent),
+        typeof(RewardComponent)
+    )]
     public class UfoView : MonoBehaviour, IUfo {
         [SerializeField] private LayerMask destroyingLayers;
         [SerializeField] private float speed = 3.5f;
+
+        public IReward RewardComponent
+            => _rewardComponent;
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
 
@@ -26,6 +32,7 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         private IDamagable _heathComponent;
         private PlaySfxSound _playSfxSound;
         private Collider2D _collider;
+        private IReward _rewardComponent;
 
         private event IUfo.OnDestroyed OnDestroyEvent;
 
@@ -36,6 +43,7 @@ namespace MegameAsteroids.View.Creatures.Ufo {
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _heathComponent = GetComponent<IDamagable>();
+            _rewardComponent = GetComponent<IReward>();
 
             // @todo fix this ?
             _playSfxSound = GetComponent<PlaySfxSound>();
@@ -76,7 +84,7 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         }
 
         private void OnDead(Transform attacker) {
-            OnDestroyEvent?.Invoke(this);
+            OnDestroyEvent?.Invoke(this, attacker);
 
             _playSfxSound.PlayOnShot();
 

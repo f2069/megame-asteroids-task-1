@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 79881616176300575, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
+      propertyPath: rewardPoints
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7871096181928608181, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
       propertyPath: clip
       value: 

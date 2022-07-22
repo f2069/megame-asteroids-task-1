@@ -2,11 +2,13 @@
 using System.Collections;
 using MegameAsteroids.Core.Data;
 using MegameAsteroids.Core.Disposables;
+using MegameAsteroids.View.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace MegameAsteroids.View.Spawners {
     public abstract class BaseSpawner : MonoBehaviour {
+        [SerializeField] protected RewardManager rewardManager;
         [SerializeField] protected int startAmount = 2;
         [SerializeField] protected FloatRange wavesDelay;
         [SerializeField] protected Transform startPrefab;

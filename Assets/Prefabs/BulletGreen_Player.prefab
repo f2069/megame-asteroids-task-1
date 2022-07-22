@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 135421714492550247}
   m_Layer: 6
   m_Name: BulletGreen_Player
-  m_TagString: Untagged
+  m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 384
+  damageValue: 1
 --- !u!114 &1788377973076435732
 MonoBehaviour:
   m_ObjectHideFlags: 0

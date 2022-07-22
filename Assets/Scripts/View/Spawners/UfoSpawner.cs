@@ -37,7 +37,7 @@ namespace MegameAsteroids.View.Spawners {
             );
         }
 
-        private void UfoDestroyed(IUfo target) {
+        private void UfoDestroyed(IUfo target, Transform _) {
             // @todo unsubscribe ?
 
             OnSceneAmount = Math.Max(0, OnSceneAmount - 1);
@@ -52,6 +52,8 @@ namespace MegameAsteroids.View.Spawners {
 
         private void SubscribeOnObject(in IUfo target) {
             Trash.Retain(target.SubscribeOnDestroy(UfoDestroyed));
+
+            rewardManager.SubscribeOnDestroyTarget(target);
         }
     }
 }

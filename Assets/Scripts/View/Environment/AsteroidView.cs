@@ -15,7 +15,10 @@ namespace MegameAsteroids.View.Environment {
         typeof(Collider2D),
         typeof(PlaySfxSound)
     )]
-    [RequireComponent(typeof(HealthComponent))]
+    [RequireComponent(
+        typeof(HealthComponent),
+        typeof(RewardComponent)
+    )]
     public class AsteroidView : MonoBehaviour, IAsteroid {
         [SerializeField] private LayerMask totalDestroyLayers;
         [SerializeField] private LayerMask projectileLayers;
@@ -24,6 +27,9 @@ namespace MegameAsteroids.View.Environment {
         [SerializeField] [Range(0f, 360f)] private float particlesAngle = 45f;
         [SerializeField] private FloatRange particlesSpeed;
 
+        public IReward RewardComponent
+            => _rewardComponent;
+
         private Camera _camera;
         private Rigidbody2D _rigidBody;
         private Collider2D _collider;
@@ -31,6 +37,7 @@ namespace MegameAsteroids.View.Environment {
         private PlaySfxSound _sfxSound;
         private Vector2 _movementDirection;
         private IDamagable _heathComponent;
+        private IReward _rewardComponent;
 
         private event IAsteroid.OnDestroyed OnDestroyEvent;
         private event IAsteroid.OnSpawnParticle OnSpawnParticleEvent;
@@ -45,8 +52,8 @@ namespace MegameAsteroids.View.Environment {
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _sfxSound = GetComponent<PlaySfxSound>();
-
             _heathComponent = GetComponent<IDamagable>();
+            _rewardComponent = GetComponent<IReward>();
         }
 
         private void Start() {

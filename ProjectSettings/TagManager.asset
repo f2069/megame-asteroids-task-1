@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - PlayerProjectile
+  - EnemyProjectile
+  - SfxAudioSource
   layers:
   - Default
   - TransparentFX

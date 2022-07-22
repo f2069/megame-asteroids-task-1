@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3747144360176534909, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
+      propertyPath: rewardPoints
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: m_RootOrder
       value: 0
