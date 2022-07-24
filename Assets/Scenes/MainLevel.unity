@@ -610,10 +610,17 @@ MonoBehaviour:
   wavesDelay:
     from: 2
     to: 2
-  startPrefab: {fileID: 4669425278146612472, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
+  spawnLevel: 0
   startSpeedRange:
     from: 0.5
     to: 2
+  prefabs:
+  - level: 0
+    prefab: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
+  - level: 1
+    prefab: {fileID: 8491094630463638427, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
+  - level: 2
+    prefab: {fileID: 4349551782224945629, guid: 1895c3ed53fb0c044872846855d6a434, type: 3}
 --- !u!114 &1018471372
 MonoBehaviour:
   m_ObjectHideFlags: 0

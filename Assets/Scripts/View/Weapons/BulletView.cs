@@ -55,17 +55,17 @@ namespace MegameAsteroids.View.Weapons {
         public void SetPool(IObjectPool<IBullet> pool)
             => _pool = pool;
 
-        public void RetainInPool() {
-            _collider.enabled = false;
-            gameObject.SetActive(false);
-            _movement.ResetState();
-        }
-
         public void ReleaseFromPool() {
             _collider.enabled = true;
             gameObject.SetActive(true);
 
             _audioSource.PlayOnShot();
+        }
+
+        public void RetainInPool() {
+            _collider.enabled = false;
+            gameObject.SetActive(false);
+            _movement.ResetState();
         }
 
         private void OnTriggerEnter2D(Collider2D other) {

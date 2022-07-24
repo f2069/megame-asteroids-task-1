@@ -12,7 +12,6 @@ namespace MegameAsteroids.View.Spawners {
         [SerializeField] protected int startAmount = 2;
         [SerializeField] protected bool spawnOnAwake;
         [SerializeField] protected FloatRange wavesDelay;
-        [SerializeField] protected Transform startPrefab;
 
         protected readonly CompositeDisposable Trash = new CompositeDisposable();
 

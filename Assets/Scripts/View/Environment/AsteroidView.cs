@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using MegameAsteroids.Components;
 using MegameAsteroids.Core.Data;
+using MegameAsteroids.Core.Dictionares;
 using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.Core.Extensions;
 using MegameAsteroids.Core.Interfaces;
 using MegameAsteroids.Models.Movement;
 using UnityEngine;
+using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 namespace MegameAsteroids.View.Environment {
@@ -20,29 +22,34 @@ namespace MegameAsteroids.View.Environment {
         typeof(RewardComponent)
     )]
     public class AsteroidView : MonoBehaviour, IAsteroid {
+        [SerializeField] private AsteroidLevel asteroidLevel;
         [SerializeField] private LayerMask totalDestroyLayers;
         [SerializeField] private LayerMask projectileLayers;
 
-        [Space] [SerializeField] private List<Transform> particles;
+        [Space] [SerializeField] private List<AsteroidView> particles;
         [SerializeField] [Range(0f, 360f)] private float particlesAngle = 45f;
         [SerializeField] private FloatRange particlesSpeed;
 
         public IReward RewardComponent
             => _rewardComponent;
 
+        public AsteroidLevel AsteroidLevel
+            => asteroidLevel;
+
         private Camera _camera;
         private Rigidbody2D _rigidBody;
         private Collider2D _collider;
         private AsteroidMovement _movement;
-        private PlaySfxSound _sfxSound;
+        private PlaySfxSound _audioSource;
         private Vector2 _movementDirection;
         private IDamagable _heathComponent;
         private IReward _rewardComponent;
 
-        private event IAsteroid.OnDestroyed OnDestroyEvent;
+        private event IDestroyable<IAsteroid>.OnDestroyed OnDestroyEvent;
         private event IAsteroid.OnSpawnParticle OnSpawnParticleEvent;
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
+        private IObjectPool<IAsteroid> _pool;
 
         private void Awake() {
             _camera = Camera.main;
@@ -51,7 +58,7 @@ namespace MegameAsteroids.View.Environment {
 
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
-            _sfxSound = GetComponent<PlaySfxSound>();
+            _audioSource = GetComponent<PlaySfxSound>();
             _heathComponent = GetComponent<IDamagable>();
             _rewardComponent = GetComponent<IReward>();
         }
@@ -64,6 +71,17 @@ namespace MegameAsteroids.View.Environment {
             _rigidBody.position = _movement.GetNextPosition(_rigidBody.position, Time.deltaTime);
         }
 
+        private void OnTriggerEnter2D(Collider2D other) {
+            var isTotalDestroy = other.gameObject.IsInLayer(totalDestroyLayers);
+            if (!isTotalDestroy) {
+                return;
+            }
+
+            _collider.enabled = false;
+
+            _heathComponent.Kill(other.transform);
+        }
+
         public void SetDirection(Vector2 ufoDirection)
             => _movement.Direction = ufoDirection.normalized;
 
@@ -73,7 +91,7 @@ namespace MegameAsteroids.View.Environment {
         public void SetSpeed(float speed)
             => _movement.MaxSpeed = speed;
 
-        public IDisposable SubscribeOnDestroy(IAsteroid.OnDestroyed call) {
+        public IDisposable SubscribeOnDestroy(IDestroyable<IAsteroid>.OnDestroyed call) {
             OnDestroyEvent += call;
 
             return new ActionDisposable(() => { OnDestroyEvent -= call; });
@@ -93,7 +111,7 @@ namespace MegameAsteroids.View.Environment {
                 return;
             }
 
-            _sfxSound.PlayOnShot();
+            _audioSource.PlayOnShot();
 
             _collider.enabled = false;
 
@@ -103,41 +121,7 @@ namespace MegameAsteroids.View.Environment {
 
             OnDestroyEvent?.Invoke(this, attacker);
 
-            SetDirection(Vector3.zero);
-
-            // @todo Pool
-            Destroy(gameObject);
-        }
-
-        private void OnTriggerEnter2D(Collider2D other) {
-            var isTotalDestroy = other.gameObject.IsInLayer(totalDestroyLayers);
-            if (!isTotalDestroy) {
-                return;
-            }
-
-            _collider.enabled = false;
-
-            _heathComponent.Kill(other.transform);
-        }
-
-        private void SpawnParticles() {
-            _movementDirection = _movement.Direction;
-
-            var speed = Random.Range(particlesSpeed.From, particlesSpeed.To);
-            var currentPosition = _rigidBody.transform.position;
-            var eps = 1;
-
-            foreach (var particle in particles) {
-                var go = Instantiate(particle, currentPosition, Quaternion.identity)
-                    .GetComponent<IAsteroid>();
-
-                go.SetDirection(Quaternion.Euler(0, 0, particlesAngle * eps) * _movementDirection);
-                go.SetSpeed(speed);
-
-                OnSpawnParticleEvent?.Invoke(go);
-
-                eps = -eps;
-            }
+            _pool.Release(this);
         }
 
 #if UNITY_EDITOR
@@ -156,5 +140,35 @@ namespace MegameAsteroids.View.Environment {
             Debug.DrawRay(position, Quaternion.Euler(0, 0, particlesAngle * -1) * movementDirection * 2f);
         }
 #endif
+
+        private void SpawnParticles() {
+            _movementDirection = _movement.Direction;
+
+            var speed = Random.Range(particlesSpeed.From, particlesSpeed.To);
+            var spawnPosition = _rigidBody.transform.position;
+            var eps = 1;
+
+            foreach (var particle in particles) {
+                var newDirection = Quaternion.Euler(0, 0, particlesAngle * eps) * _movementDirection;
+                OnSpawnParticleEvent?.Invoke(spawnPosition, newDirection, speed, particle.AsteroidLevel);
+
+                eps = -eps;
+            }
+        }
+
+        public void SetPool(IObjectPool<IAsteroid> pool)
+            => _pool = pool;
+
+        public void ReleaseFromPool() {
+            _collider.enabled = true;
+            gameObject.SetActive(true);
+        }
+
+        public void RetainInPool() {
+            _collider.enabled = false;
+            gameObject.SetActive(false);
+            _movement.ResetState();
+            _heathComponent.ResetState();
+        }
     }
 }

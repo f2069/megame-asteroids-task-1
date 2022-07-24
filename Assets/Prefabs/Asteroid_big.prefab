@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03438114e488462693bd3cd554808c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asteroidLevel: 0
   totalDestroyLayers:
     serializedVersion: 2
     m_Bits: 640
@@ -108,8 +109,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   particles:
-  - {fileID: 8491094630463638426, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
-  - {fileID: 8491094630463638426, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
+  - {fileID: 8491094630463638427, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
+  - {fileID: 8491094630463638427, guid: 6c2b3c3814d513143bbf4960622878d7, type: 3}
   particlesAngle: 45
   particlesSpeed:
     from: 2
@@ -153,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 962f94040bdfb2b41998d3f71b4796bb, type: 3}
-  playOnAwake: 0
 --- !u!50 &4669425278146612474
 Rigidbody2D:
   serializedVersion: 4

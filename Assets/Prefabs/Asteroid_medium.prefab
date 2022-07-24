@@ -40,6 +40,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
+      propertyPath: asteroidLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: speedRange.to
       value: 4
       objectReference: {fileID: 0}
@@ -62,11 +66,11 @@ PrefabInstance:
     - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: particles.Array.data[0]
       value: 
-      objectReference: {fileID: 4349551782224945628, guid: 1895c3ed53fb0c044872846855d6a434, type: 3}
+      objectReference: {fileID: 4349551782224945629, guid: 1895c3ed53fb0c044872846855d6a434, type: 3}
     - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: particles.Array.data[1]
       value: 
-      objectReference: {fileID: 4349551782224945628, guid: 1895c3ed53fb0c044872846855d6a434, type: 3}
+      objectReference: {fileID: 4349551782224945629, guid: 1895c3ed53fb0c044872846855d6a434, type: 3}
     - target: {fileID: 4669425278146612478, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: m_Name
       value: Asteroid_medium

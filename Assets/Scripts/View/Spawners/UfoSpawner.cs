@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace MegameAsteroids.View.Spawners {
     public class UfoSpawner : BaseSpawner {
+        [SerializeField] private Transform startPrefab;
         [SerializeField] [Range(0f, 1f)] private float spawnHeightMargin = .2f;
 
         private float _spawnHeightBounds;

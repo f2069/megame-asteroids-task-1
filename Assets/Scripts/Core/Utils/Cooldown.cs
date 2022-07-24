@@ -13,9 +13,7 @@ namespace MegameAsteroids.Core.Utils {
             TimesUp = Time.time;
         }
 
-        public void Reset() {
-            var startTime = Time.time;
-            TimesUp = Time.time + _delayValue;
-        }
+        public void Reset()
+            => TimesUp = Time.time + _delayValue;
     }
 }
