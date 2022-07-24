@@ -24,7 +24,7 @@ namespace MegameAsteroids.View.Managers {
             _gameSession = GameSession.I;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
             => _trash.Dispose();
 
         public void SetPause(bool pauseState) {

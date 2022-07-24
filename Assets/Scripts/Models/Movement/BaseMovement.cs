@@ -23,6 +23,11 @@ namespace MegameAsteroids.Models.Movement {
             return _mainCamera.ViewportToWorldPoint(viewportPoint);
         }
 
+        public virtual void ResetState() {
+            Direction = Vector2.zero;
+            TotalDistance = 0;
+        }
+
         public abstract Vector2 GetNextPosition(Vector2 currentPosition, float deltaTime);
     }
 }

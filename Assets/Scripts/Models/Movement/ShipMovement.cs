@@ -44,8 +44,10 @@ namespace MegameAsteroids.Models.Movement {
             return _rotationDegrees;
         }
 
-        public void ResetState() {
-            Direction = _acceleration = Vector2.zero;
+        public override void ResetState() {
+            base.ResetState();
+
+            _acceleration = Vector2.zero;
             _rotationDegrees = 0;
         }
     }

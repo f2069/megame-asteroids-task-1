@@ -64,8 +64,11 @@ namespace MegameAsteroids.View.Environment {
             _rigidBody.position = _movement.GetNextPosition(_rigidBody.position, Time.deltaTime);
         }
 
-        public void SetDirection(Vector3 ufoDirection)
+        public void SetDirection(Vector2 ufoDirection)
             => _movement.Direction = ufoDirection.normalized;
+
+        public void SetPosition(Vector2 newPosition)
+            => transform.position = newPosition;
 
         public void SetSpeed(float speed)
             => _movement.MaxSpeed = speed;

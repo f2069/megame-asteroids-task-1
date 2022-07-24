@@ -12,11 +12,13 @@ namespace MegameAsteroids.Core.Utils {
 
         public static AudioUtils I {
             get {
-                if (_instance == null) {
-                    _instance = new AudioUtils();
-
-                    _instance.InitSources();
+                if (_instance != null) {
+                    return _instance;
                 }
+
+                _instance = new AudioUtils();
+
+                _instance.InitSources();
 
                 return _instance;
             }

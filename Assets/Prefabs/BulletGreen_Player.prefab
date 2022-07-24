@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 77065655a5319e9489c6097ca61b9072, type: 3}
-  playOnAwake: 1
+  playOnAwake: 0
 --- !u!50 &8038516451959296832
 Rigidbody2D:
   serializedVersion: 4

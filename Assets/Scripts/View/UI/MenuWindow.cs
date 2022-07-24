@@ -27,7 +27,7 @@ namespace MegameAsteroids.View.UI {
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
             => _trash.Dispose();
 
         public void OnNewGame() {

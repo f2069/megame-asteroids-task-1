@@ -32,6 +32,7 @@ namespace MegameAsteroids.View.Managers {
             _trash.Dispose();
 
             AudioUtils.I.Dispose();
+            SpawnUtils.I.Dispose();
         }
     }
 }

@@ -74,8 +74,11 @@ namespace MegameAsteroids.View.Creatures.Ufo {
             _heathComponent.Kill(other.transform);
         }
 
-        public void SetDirection(Vector3 ufoDirection)
+        public void SetDirection(Vector2 ufoDirection)
             => _movement.Direction = ufoDirection.normalized;
+
+        public void SetPosition(Vector2 newPosition)
+            => transform.position = newPosition;
 
         public IDisposable SubscribeOnDestroy(IUfo.OnDestroyed call) {
             OnDestroyEvent += call;
