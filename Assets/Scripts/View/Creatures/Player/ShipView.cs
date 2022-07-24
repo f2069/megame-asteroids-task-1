@@ -33,7 +33,10 @@ namespace MegameAsteroids.View.Creatures.Player {
 
         public delegate void IsDead();
 
+        public delegate void IsLivesChange(byte newValue);
+
         private event IsDead OnDeadEvent;
+        private event IsLivesChange OnIsLivesChangeEvent;
 
         public Vector2 ShotDirection => _shipMovement.Direction;
 
@@ -84,6 +87,8 @@ namespace MegameAsteroids.View.Creatures.Player {
             _trash.Retain(_userInput.SubscribeOnRotate(OnRotate));
 
             _trash.Retain(_heathComponent.SubscribeOnDead(OnHealthEnd));
+
+            OnIsLivesChangeEvent?.Invoke(livesAmount);
         }
 
         private void OnDestroy()
@@ -115,12 +120,20 @@ namespace MegameAsteroids.View.Creatures.Player {
             return new ActionDisposable(() => { OnDeadEvent -= call; });
         }
 
+        public IDisposable SubscribeOnChangeLives(IsLivesChange call) {
+            OnIsLivesChangeEvent += call;
+
+            return new ActionDisposable(() => { OnIsLivesChangeEvent -= call; });
+        }
+
         private void OnHealthEnd(Transform _) {
             _collider.enabled = false;
 
             _playSfxSound.PlayOnShot();
 
             livesAmount = (byte) Math.Max(0, livesAmount - 1);
+            OnIsLivesChangeEvent?.Invoke(livesAmount);
+
             if (livesAmount == 0) {
                 OnDeadEvent?.Invoke();
 

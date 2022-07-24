@@ -27,7 +27,6 @@ namespace MegameAsteroids.UserInput {
             GetFireInputDown();
         }
 
-        // @todo fix this
         private bool CanProcessInput()
             => !_isLocked;
 
