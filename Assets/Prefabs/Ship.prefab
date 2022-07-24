@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   livesAmount: 3
   immortalTime: 3
-  blinkTime: 0.5
+  blinkTime: 0.25
   maxSpeed: 15
   accelerationSpeed: 10
   rotateSpeed: 225

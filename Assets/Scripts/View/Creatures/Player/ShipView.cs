@@ -23,7 +23,7 @@ namespace MegameAsteroids.View.Creatures.Player {
     public class ShipView : MonoBehaviour {
         [Header("Respawn")] [SerializeField] private byte livesAmount = 3;
         [SerializeField] private float immortalTime = 3f;
-        [SerializeField] private float blinkTime = .5f;
+        [SerializeField] private float blinkTime = .25f;
 
         [Header("Movement")] [SerializeField] private float maxSpeed = 20f;
         [SerializeField] private float accelerationSpeed = 15f;
