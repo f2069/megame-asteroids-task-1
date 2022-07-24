@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections;
 using MegameAsteroids.Core.Data;
-using MegameAsteroids.Core.Disposables;
-using MegameAsteroids.Core.Interfaces;
 using MegameAsteroids.View.Creatures.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace MegameAsteroids.View.Armory {
-    public class UfoBulletWeapon : MonoBehaviour {
-        [SerializeField] private Transform prefab;
-        [SerializeField] private Transform spawnPosition;
+    public class UfoBulletWeapon : BaseBulletWeapon {
         [SerializeField] private FloatRange shotDelay;
 
-        private readonly CompositeDisposable _trash = new CompositeDisposable();
-
-        private ShipView _ship;
         private Coroutine _coroutine;
 
-        private void Awake() {
-            // @todo fix this
-            _ship = FindObjectOfType<ShipView>();
+        protected override void Awake() {
+            base.Awake();
+
+            Ship = FindObjectOfType<ShipView>();
         }
 
         private void Start() {
@@ -28,32 +22,33 @@ namespace MegameAsteroids.View.Armory {
                 throw new ArgumentException("Invalid values.", nameof(shotDelay));
             }
 
-            if (_ship == null) {
+            if (Ship == null) {
                 return;
             }
 
-            _trash.Retain(_ship.SubscribeOnDead(PlayerIsDead));
+            Trash.Retain(Ship.SubscribeOnDead(OnPlayerIsDead));
 
             _coroutine = StartCoroutine(AttackState());
         }
 
-        private void PlayerIsDead()
+        private void OnPlayerIsDead()
             => TryStopCoroutine();
 
         private IEnumerator AttackState() {
             while (enabled) {
                 yield return new WaitForSeconds(Random.Range(shotDelay.From, shotDelay.To));
 
-                if (_ship == null) {
+                if (Ship == null) {
                     TryStopCoroutine();
 
                     yield break;
                 }
 
-                var goTransform = Instantiate(prefab, spawnPosition.position, Quaternion.identity);
-                var bullet = goTransform.GetComponent<IBullet>();
+                var bullet = BulletPool.Get();
+                var goTransform = ((MonoBehaviour) bullet).transform;
 
-                bullet.SetDirection(_ship.transform.position - goTransform.position);
+                bullet.SetPosition(spawnPosition.position);
+                bullet.SetDirection(Ship.transform.position - goTransform.position);
             }
         }
 
@@ -66,10 +61,10 @@ namespace MegameAsteroids.View.Armory {
             _coroutine = null;
         }
 
-        private void OnDestroy() {
+        protected override void OnDestroy() {
             TryStopCoroutine();
 
-            _trash.Dispose();
+            base.OnDestroy();
         }
     }
 }

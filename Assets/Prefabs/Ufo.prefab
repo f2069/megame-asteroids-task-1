@@ -331,7 +331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: fce0e7cac2c772c4eb5cf74f9534adf6, type: 3}
-  playOnAwake: 0
 --- !u!114 &2197274508007942770
 MonoBehaviour:
   m_ObjectHideFlags: 0
