@@ -204,7 +204,7 @@ AudioSource:
   m_GameObject: {fileID: 372762374}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 0b76cd40e718b6940837f9cff2a63eba, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -661,37 +661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a0c21fa8e4498081d7dec12c4e50d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1055209857 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4421361234240575753, guid: cafc16924bb75204cbc279ef4ef7f4a0, type: 3}
-  m_PrefabInstance: {fileID: 2044801942}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1055209859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055209857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1 &1096821571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,10 +976,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4421361234240575752, guid: cafc16924bb75204cbc279ef4ef7f4a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4421361234240575799, guid: cafc16924bb75204cbc279ef4ef7f4a0, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

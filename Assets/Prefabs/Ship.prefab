@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   livesAmount: 3
+  immortalTime: 3
+  blinkTime: 0.5
   maxSpeed: 15
   accelerationSpeed: 10
   rotateSpeed: 225
@@ -256,7 +258,7 @@ AudioSource:
   m_GameObject: {fileID: 8605442527913839756}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 0b76cd40e718b6940837f9cff2a63eba, type: 2}
   m_audioClip: {fileID: 8300000, guid: 7acfdab0fe10a50488e86299ce3f6670, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
