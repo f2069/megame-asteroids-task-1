@@ -46,8 +46,7 @@ namespace MegameAsteroids.View.Spawners {
                 return;
             }
 
-            TryStopCoroutine();
-            WaveCoroutine = StartCoroutine(StartNewWave());
+            StartNewWave();
         }
 
         private void SubscribeOnObject(in IUfo target) {

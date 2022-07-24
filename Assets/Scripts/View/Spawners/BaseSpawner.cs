@@ -10,12 +10,11 @@ namespace MegameAsteroids.View.Spawners {
     public abstract class BaseSpawner : MonoBehaviour {
         [SerializeField] protected RewardManager rewardManager;
         [SerializeField] protected int startAmount = 2;
+        [SerializeField] protected bool spawnOnAwake;
         [SerializeField] protected FloatRange wavesDelay;
         [SerializeField] protected Transform startPrefab;
 
         protected readonly CompositeDisposable Trash = new CompositeDisposable();
-
-        protected Coroutine WaveCoroutine;
 
         protected int CurrentStartAmount;
         protected int OnSceneAmount;
@@ -24,6 +23,7 @@ namespace MegameAsteroids.View.Spawners {
         protected float ScreenHalfHeight;
 
         private Camera _camera;
+        private Coroutine _waveCoroutine;
 
         protected abstract void SpawnObjects(int amount);
 
@@ -36,25 +36,24 @@ namespace MegameAsteroids.View.Spawners {
         }
 
         protected virtual void Start() {
-            SpawnObjects(startAmount);
-
             if (!wavesDelay.Valid()) {
                 throw new ArgumentException("Invalid values.", nameof(wavesDelay));
             }
-        }
 
-        protected void TryStopCoroutine() {
-            if (WaveCoroutine == null) {
-                return;
+            if (spawnOnAwake) {
+                SpawnObjects(startAmount);
+            } else {
+                StartNewWave();
             }
-
-            StopCoroutine(WaveCoroutine);
-            WaveCoroutine = null;
         }
 
-        protected IEnumerator StartNewWave() {
-            yield return new WaitForSeconds(GetWaveDelay());
+        protected void StartNewWave() {
+            TryStopCoroutine();
+            _waveCoroutine = StartCoroutine(RunWaveCoroutine());
+        }
 
+        private IEnumerator RunWaveCoroutine() {
+            yield return new WaitForSeconds(GetWaveDelay());
             SpawnObjects(CurrentStartAmount);
         }
 
@@ -75,7 +74,16 @@ namespace MegameAsteroids.View.Spawners {
             );
         }
 
-        protected virtual float GetWaveDelay() {
+        private void TryStopCoroutine() {
+            if (_waveCoroutine == null) {
+                return;
+            }
+
+            StopCoroutine(_waveCoroutine);
+            _waveCoroutine = null;
+        }
+
+        private float GetWaveDelay() {
             return Math.Abs(wavesDelay.From - wavesDelay.To) < .001f
                 ? wavesDelay.From
                 : Random.Range(wavesDelay.From, wavesDelay.To);
@@ -87,7 +95,7 @@ namespace MegameAsteroids.View.Spawners {
             Trash.Dispose();
         }
 
-        protected virtual bool SceneIsEmpty()
+        protected bool SceneIsEmpty()
             => OnSceneAmount == 0;
     }
 }

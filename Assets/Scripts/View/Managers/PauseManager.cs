@@ -10,6 +10,7 @@ namespace MegameAsteroids.View.Managers {
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
 
+        private GameSession _gameSession;
         private bool _gameOnPause;
         private float _defaultTimeScale;
 
@@ -19,13 +20,15 @@ namespace MegameAsteroids.View.Managers {
 
         private void Start() {
             _trash.Retain(globalUserInput.SubscribeOnEscape(OnEscape));
+
+            _gameSession = GameSession.I;
         }
 
         private void OnDisable()
             => _trash.Dispose();
 
-        private void SwitchPause() {
-            _gameOnPause = !_gameOnPause;
+        public void SetPause(bool pauseState) {
+            _gameOnPause = pauseState;
 
             userInput.SwitchLock(_gameOnPause);
             AudioListener.pause = _gameOnPause;
@@ -35,7 +38,11 @@ namespace MegameAsteroids.View.Managers {
         }
 
         private void OnEscape() {
-            SwitchPause();
+            if (!_gameSession.NewGameWasStarted) {
+                return;
+            }
+
+            SetPause(!_gameOnPause);
         }
     }
 }

@@ -13,6 +13,6 @@ namespace MegameAsteroids.Components {
         }
 
         [ContextMenu("PlayOnShot")]
-        public void PlayOnShot() => AudioUtils.SfxSource.PlayOneShot(clip);
+        public void PlayOnShot() => AudioUtils.I.SfxSource.PlayOneShot(clip);
     }
 }

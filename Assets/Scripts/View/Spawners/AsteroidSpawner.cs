@@ -39,8 +39,7 @@ namespace MegameAsteroids.View.Spawners {
 
             CurrentStartAmount += 1;
 
-            TryStopCoroutine();
-            WaveCoroutine = StartCoroutine(StartNewWave());
+            StartNewWave();
         }
 
         private void SubscribeOnObject(in IAsteroid target) {
