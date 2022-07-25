@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using MegameAsteroids.Components;
+using MegameAsteroids.Core.Data;
 using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.Core.Extensions;
 using MegameAsteroids.Core.Interfaces;
+using MegameAsteroids.Core.Utils;
 using MegameAsteroids.Models.Movement;
 using MegameAsteroids.UserInput;
 using UnityEngine;
@@ -12,13 +14,12 @@ namespace MegameAsteroids.View.Creatures.Player {
     [SelectionBase]
     [RequireComponent(
         typeof(Rigidbody2D),
-        typeof(AudioSource),
+        typeof(Collider2D),
         typeof(HealthComponent)
     )]
     [RequireComponent(
-        typeof(Collider2D),
-        typeof(PlaySfxSound),
-        typeof(UserInputHandler)
+        typeof(UserInputHandler),
+        typeof(AudioSource)
     )]
     public class ShipView : MonoBehaviour {
         [Header("Respawn")] [SerializeField] private byte livesAmount = 3;
@@ -30,6 +31,9 @@ namespace MegameAsteroids.View.Creatures.Player {
         [SerializeField] [Range(0f, 360f)] private float rotateSpeed = 180f;
 
         [Header("Damage")] [SerializeField] private LayerMask destroyingLayers;
+
+        [Header("Audio")] [SerializeField] private AudioClip thrustEffect;
+        [SerializeField] private AudioClip explosionEffect;
 
         public delegate void IsDead();
 
@@ -45,10 +49,10 @@ namespace MegameAsteroids.View.Creatures.Player {
         private Camera _camera;
         private UserInputHandler _userInput;
         private Rigidbody2D _rigidBody;
+        private AudioSource _audioSfxSource;
         private AudioSource _audioSource;
         private ShipMovement _shipMovement;
         private IDamagable _heathComponent;
-        private PlaySfxSound _playSfxSound;
         private Collider2D _collider;
         private SpriteRenderer _spriteRenderer;
         private Vector2 _targetPosition;
@@ -66,11 +70,7 @@ namespace MegameAsteroids.View.Creatures.Player {
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _audioSource = GetComponent<AudioSource>();
-
             _heathComponent = GetComponent<IDamagable>();
-
-            // @todo fix this ?
-            _playSfxSound = GetComponent<PlaySfxSound>();
 
             _shipMovement = new ShipMovement(
                 _camera,
@@ -84,6 +84,11 @@ namespace MegameAsteroids.View.Creatures.Player {
         }
 
         private void Start() {
+            _audioSource.clip = thrustEffect;
+            _audioSource.volume = GameSettings.I.SfxVolume / 100;
+
+            _audioSfxSource = AudioUtils.I.SfxSource;
+
             _trash.Retain(_userInput.SubscribeOnAcceleration(OnAcceleration));
             _trash.Retain(_userInput.SubscribeOnRotate(OnRotateDirection));
             _trash.Retain(_userInput.SubscribeOnRotateVector(OnRotateVector));
@@ -137,7 +142,7 @@ namespace MegameAsteroids.View.Creatures.Player {
         private void OnHealthEnd(Transform _) {
             _collider.enabled = false;
 
-            _playSfxSound.PlayOnShot();
+            _audioSfxSource.PlayOneShot(explosionEffect);
 
             livesAmount = (byte) Math.Max(0, livesAmount - 1);
             OnIsLivesChangeEvent?.Invoke(livesAmount);
@@ -194,7 +199,6 @@ namespace MegameAsteroids.View.Creatures.Player {
         }
 
         private void AudioPlayThrust() {
-            // @todo refactor this
             if (_isAccelerate) {
                 if (!_audioSource.isPlaying) {
                     _audioSource.Play();

@@ -6,6 +6,7 @@ using MegameAsteroids.Core.Dictionares;
 using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.Core.Extensions;
 using MegameAsteroids.Core.Interfaces;
+using MegameAsteroids.Core.Utils;
 using MegameAsteroids.Models.Movement;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -14,8 +15,7 @@ using Random = UnityEngine.Random;
 namespace MegameAsteroids.View.Environment {
     [RequireComponent(
         typeof(Rigidbody2D),
-        typeof(Collider2D),
-        typeof(PlaySfxSound)
+        typeof(Collider2D)
     )]
     [RequireComponent(
         typeof(HealthComponent),
@@ -30,6 +30,8 @@ namespace MegameAsteroids.View.Environment {
         [SerializeField] [Range(0f, 360f)] private float particlesAngle = 45f;
         [SerializeField] private FloatRange particlesSpeed;
 
+        [Header("Audio")] [SerializeField] private AudioClip explosionEffect;
+
         public IReward RewardComponent
             => _rewardComponent;
 
@@ -40,7 +42,7 @@ namespace MegameAsteroids.View.Environment {
         private Rigidbody2D _rigidBody;
         private Collider2D _collider;
         private AsteroidMovement _movement;
-        private PlaySfxSound _audioSource;
+        private AudioSource _audioSource;
         private Vector2 _movementDirection;
         private IDamagable _heathComponent;
         private IReward _rewardComponent;
@@ -58,9 +60,10 @@ namespace MegameAsteroids.View.Environment {
 
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
-            _audioSource = GetComponent<PlaySfxSound>();
             _heathComponent = GetComponent<IDamagable>();
             _rewardComponent = GetComponent<IReward>();
+
+            _audioSource = AudioUtils.I.SfxSource;
         }
 
         private void Start() {
@@ -111,7 +114,7 @@ namespace MegameAsteroids.View.Environment {
                 return;
             }
 
-            _audioSource.PlayOnShot();
+            _audioSource.PlayOneShot(explosionEffect);
 
             _collider.enabled = false;
 

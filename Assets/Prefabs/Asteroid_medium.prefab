@@ -48,6 +48,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 8300000, guid: 610f89e049474f14baf015a4241c3931, type: 3}
+    - target: {fileID: 4669425278146612473, guid: 449f8e9ac5b8cc941a8fa98dc972d817, type: 3}
       propertyPath: speedRange.from
       value: 2
       objectReference: {fileID: 0}

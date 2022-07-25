@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172b78bb611a4c0f870dfcf588e91a58, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  sfxVolume: 80
+  sfxVolume: 30
   inputWithMouse:
     currentValue: 0

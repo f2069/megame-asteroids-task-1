@@ -1,8 +1,10 @@
 ﻿using System;
 using MegameAsteroids.Components;
+using MegameAsteroids.Core.Data;
 using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.Core.Extensions;
 using MegameAsteroids.Core.Interfaces;
+using MegameAsteroids.Core.Utils;
 using MegameAsteroids.Models.Movement;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ namespace MegameAsteroids.View.Creatures.Ufo {
     [RequireComponent(
         typeof(Rigidbody2D),
         typeof(Collider2D),
-        typeof(PlaySfxSound)
+        typeof(AudioSource)
     )]
     [RequireComponent(
         typeof(HealthComponent),
@@ -20,6 +22,8 @@ namespace MegameAsteroids.View.Creatures.Ufo {
     public class UfoView : MonoBehaviour, IUfo {
         [SerializeField] private LayerMask destroyingLayers;
         [SerializeField] private float speed = 3.5f;
+
+        [Header("Audio")] [SerializeField] private AudioClip explosionEffect;
 
         public IReward RewardComponent
             => _rewardComponent;
@@ -30,7 +34,8 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         private UfoMovement _movement;
         private Rigidbody2D _rigidBody;
         private IDamagable _heathComponent;
-        private PlaySfxSound _playSfxSound;
+        private AudioSource _audioSfxSource;
+        private AudioSource _audioSource;
         private Collider2D _collider;
         private IReward _rewardComponent;
 
@@ -44,12 +49,13 @@ namespace MegameAsteroids.View.Creatures.Ufo {
             _collider = GetComponent<Collider2D>();
             _heathComponent = GetComponent<IDamagable>();
             _rewardComponent = GetComponent<IReward>();
-
-            // @todo fix this ?
-            _playSfxSound = GetComponent<PlaySfxSound>();
+            _audioSource = GetComponent<AudioSource>();
+            _audioSfxSource = AudioUtils.I.SfxSource;
         }
 
         private void Start() {
+            _audioSource.volume = GameSettings.I.SfxVolume / 100;
+
             _trash.Retain(_heathComponent.SubscribeOnDead(OnDead));
         }
 
@@ -89,9 +95,8 @@ namespace MegameAsteroids.View.Creatures.Ufo {
         private void OnDead(Transform attacker) {
             OnDestroyEvent?.Invoke(this, attacker);
 
-            _playSfxSound.PlayOnShot();
+            _audioSfxSource.PlayOneShot(explosionEffect);
 
-            // @todo Pool
             Destroy(gameObject);
         }
     }

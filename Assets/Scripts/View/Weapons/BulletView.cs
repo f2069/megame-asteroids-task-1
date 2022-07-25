@@ -1,6 +1,6 @@
-﻿using MegameAsteroids.Components;
-using MegameAsteroids.Core.Extensions;
+﻿using MegameAsteroids.Core.Extensions;
 using MegameAsteroids.Core.Interfaces;
+using MegameAsteroids.Core.Utils;
 using MegameAsteroids.Models.Movement;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -15,14 +15,16 @@ namespace MegameAsteroids.View.Weapons {
         [SerializeField] private LayerMask targetLayers;
         [SerializeField] private float damageValue = 1f;
 
+        [Header("Audio")] [SerializeField] private AudioClip fireEffect;
+
         private Camera _camera;
         private BulletMovement _movement;
         private Rigidbody2D _rigidBody;
         private Collider2D _collider;
+        private AudioSource _audioSource;
         private IObjectPool<IBullet> _pool;
 
         private float _maxDistance;
-        private PlaySfxSound _audioSource;
 
         private void Awake() {
             _camera = Camera.main;
@@ -30,7 +32,7 @@ namespace MegameAsteroids.View.Weapons {
             _movement = new BulletMovement(_camera, speed);
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
-            _audioSource = GetComponent<PlaySfxSound>();
+            _audioSource = AudioUtils.I.SfxSource;
 
             _maxDistance = _camera.ViewportToWorldPoint(Vector3.right).x * 2;
         }
@@ -59,7 +61,7 @@ namespace MegameAsteroids.View.Weapons {
             _collider.enabled = true;
             gameObject.SetActive(true);
 
-            _audioSource.PlayOnShot();
+            _audioSource.PlayOneShot(fireEffect);
         }
 
         public void RetainInPool() {

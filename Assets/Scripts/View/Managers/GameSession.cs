@@ -25,6 +25,12 @@ namespace MegameAsteroids.View.Managers {
             DontDestroyOnLoad(this);
         }
 
+        private void OnDestroy() {
+            if (I == this) {
+                I = null;
+            }
+        }
+
         private GameSession GetExistsSession() {
             var session = FindObjectsOfType<GameSession>();
 
