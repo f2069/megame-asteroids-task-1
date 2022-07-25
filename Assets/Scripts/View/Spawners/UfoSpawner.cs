@@ -39,8 +39,6 @@ namespace MegameAsteroids.View.Spawners {
         }
 
         private void UfoDestroyed(IUfo target, Transform _) {
-            // @todo unsubscribe ?
-
             OnSceneAmount = Math.Max(0, OnSceneAmount - 1);
 
             if (!SceneIsEmpty()) {

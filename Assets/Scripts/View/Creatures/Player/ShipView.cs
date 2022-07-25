@@ -51,6 +51,7 @@ namespace MegameAsteroids.View.Creatures.Player {
         private PlaySfxSound _playSfxSound;
         private Collider2D _collider;
         private SpriteRenderer _spriteRenderer;
+        private Vector2 _targetPosition;
 
         private bool _isAccelerate;
         private Vector3 _startPosition;
@@ -84,7 +85,8 @@ namespace MegameAsteroids.View.Creatures.Player {
 
         private void Start() {
             _trash.Retain(_userInput.SubscribeOnAcceleration(OnAcceleration));
-            _trash.Retain(_userInput.SubscribeOnRotate(OnRotate));
+            _trash.Retain(_userInput.SubscribeOnRotate(OnRotateDirection));
+            _trash.Retain(_userInput.SubscribeOnRotateVector(OnRotateVector));
 
             _trash.Retain(_heathComponent.SubscribeOnDead(OnHealthEnd));
 
@@ -107,11 +109,17 @@ namespace MegameAsteroids.View.Creatures.Player {
         private void FixedUpdate() {
             var deltaTime = Time.deltaTime;
 
-            var newPosition = _shipMovement.GetNextPosition(_rigidBody.position, deltaTime);
+            var currentPosition = _rigidBody.position;
+
+            if (_targetPosition != Vector2.zero) {
+                _shipMovement.SetDirectionToTarget(currentPosition, _targetPosition, deltaTime);
+            }
+
+            var newPosition = _shipMovement.GetNextPosition(currentPosition, deltaTime);
             _rigidBody.position = newPosition;
 
-            var newAngle = _shipMovement.Rotate(deltaTime);
-            _rigidBody.SetRotation(newAngle);
+            var angle = _shipMovement.GetRotationAngle(deltaTime);
+            _rigidBody.SetRotation(angle);
         }
 
         public IDisposable SubscribeOnDead(IsDead call) {
@@ -198,10 +206,19 @@ namespace MegameAsteroids.View.Creatures.Player {
             }
         }
 
-        private void OnAcceleration(float accelerate)
-            => _isAccelerate = accelerate > 0;
+        private void OnAcceleration(float accelerate) {
+            _isAccelerate = accelerate > 0;
 
-        private void OnRotate(float rotate)
-            => _shipMovement.RotateDirection = rotate;
+            _shipMovement.SetDirectionForward();
+        }
+
+        private void OnRotateDirection(float direction) {
+            _targetPosition = Vector2.zero;
+            _shipMovement.RotateDirection = direction;
+        }
+
+        private void OnRotateVector(Vector2 rotate) {
+            _targetPosition = _camera.ScreenToWorldPoint(rotate);
+        }
     }
 }

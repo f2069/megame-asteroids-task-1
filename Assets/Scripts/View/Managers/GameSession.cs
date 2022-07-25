@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using MegameAsteroids.Core.Data;
+using MegameAsteroids.Core.Utils;
 using UnityEngine;
 
 namespace MegameAsteroids.View.Managers {
@@ -10,12 +12,14 @@ namespace MegameAsteroids.View.Managers {
         private void Awake() {
             var existsSession = GetExistsSession();
             if (existsSession != null) {
+                LoadSettings();
                 Destroy(gameObject);
 
                 return;
             }
 
             I = this;
+            LoadSettings();
 
             // save session
             DontDestroyOnLoad(this);
@@ -25,6 +29,10 @@ namespace MegameAsteroids.View.Managers {
             var session = FindObjectsOfType<GameSession>();
 
             return session.FirstOrDefault(gameSession => gameSession != this);
+        }
+
+        private void LoadSettings() {
+            AudioUtils.I.SfxSource.volume = GameSettings.I.SfxVolume / 100;
         }
     }
 }

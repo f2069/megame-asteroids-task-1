@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.View.Creatures.Player;
 using UnityEngine;
 
@@ -7,11 +8,15 @@ namespace MegameAsteroids.View.UI {
         [SerializeField] private ShipView playerShip;
         [SerializeField] private Transform liveItemWidget;
 
+        private readonly CompositeDisposable _trash = new CompositeDisposable();
         private readonly List<Transform> _createdItems = new List<Transform>();
 
         private void Awake() {
-            playerShip.SubscribeOnChangeLives(ValueChanged);
+            _trash.Retain(playerShip.SubscribeOnChangeLives(ValueChanged));
         }
+
+        private void OnDestroy()
+            => _trash.Dispose();
 
         private void ValueChanged(byte newValue) {
             for (var i = _createdItems.Count; i < newValue; i++) {

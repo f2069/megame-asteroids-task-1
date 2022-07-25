@@ -1,4 +1,5 @@
-﻿using MegameAsteroids.Core.Dictionares;
+﻿using MegameAsteroids.Core.Data;
+using MegameAsteroids.Core.Dictionares;
 using MegameAsteroids.Core.Disposables;
 using MegameAsteroids.View.Managers;
 using UnityEditor;
@@ -8,19 +9,30 @@ using UnityEngine.UI;
 
 namespace MegameAsteroids.View.UI {
     public class MenuWindow : MonoBehaviour {
-        [SerializeField] private Text controlsText;
+        [SerializeField] private Transform controls;
         [SerializeField] private Transform continueButton;
         [SerializeField] private PauseManager pauseManager;
 
         private readonly CompositeDisposable _trash = new CompositeDisposable();
         private GameSession _gameSession;
+        private GameSettings _gameSettings;
+
+        private Text _controlsText;
+        private Toggle _controlsToggle;
+
+        private void Awake() {
+            _controlsText = controls.GetChild(0).GetComponent<Text>();
+            _controlsToggle = controls.GetComponent<Toggle>();
+        }
 
         private void Start() {
             pauseManager.SetPause(true);
 
             _gameSession = GameSession.I;
+            _gameSettings = GameSettings.I;
 
             continueButton.gameObject.SetActive(_gameSession.NewGameWasStarted);
+            _controlsToggle.isOn = _gameSettings.InputWithMouse.Value;
 
             if (_gameSession.NewGameWasStarted) {
                 OnResumeGame();
@@ -43,9 +55,9 @@ namespace MegameAsteroids.View.UI {
         }
 
         public void OnSwitchControl(bool value) {
-            // @todo
+            _gameSettings.InputWithMouse.Value = value;
 
-            controlsText.text = value ? "Управление: клавиатура + мышь" : "Управление: клавиатура";
+            _controlsText.text = value ? "Управление: клавиатура + мышь" : "Управление: клавиатура";
         }
 
         public void OnExitGame() {

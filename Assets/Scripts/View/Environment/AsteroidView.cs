@@ -124,23 +124,6 @@ namespace MegameAsteroids.View.Environment {
             _pool.Release(this);
         }
 
-#if UNITY_EDITOR
-        private void OnDrawGizmos() {
-            if (!Application.isPlaying) {
-                return;
-            }
-
-            var movementDirection = _movement.Direction == Vector2.zero ? _movementDirection : _movement.Direction;
-            var position = transform.position;
-            var red = new Color(1f, 0f, 0f, 1f);
-
-            Debug.DrawRay(position, movementDirection * 3f, red);
-
-            Debug.DrawRay(position, Quaternion.Euler(0, 0, particlesAngle) * movementDirection * 2f);
-            Debug.DrawRay(position, Quaternion.Euler(0, 0, particlesAngle * -1) * movementDirection * 2f);
-        }
-#endif
-
         private void SpawnParticles() {
             _movementDirection = _movement.Direction;
 
