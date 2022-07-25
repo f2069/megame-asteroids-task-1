@@ -578,7 +578,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1018471372}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
@@ -590,7 +590,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1018471371
 MonoBehaviour:
@@ -637,8 +637,8 @@ MonoBehaviour:
   startAmount: 1
   spawnOnAwake: 0
   wavesDelay:
-    from: 2
-    to: 4
+    from: 20
+    to: 40
   startPrefab: {fileID: 7468149356794836685, guid: 726e5b9f58a3f2048b1b3f9675feaf81, type: 3}
   spawnHeightMargin: 0.2
 --- !u!114 &1018471373

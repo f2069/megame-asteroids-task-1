@@ -139,7 +139,7 @@ MonoBehaviour:
   blinkTime: 0.25
   maxSpeed: 15
   accelerationSpeed: 10
-  rotateSpeed: 225
+  rotateSpeed: 180
   destroyingLayers:
     serializedVersion: 2
     m_Bits: 384
