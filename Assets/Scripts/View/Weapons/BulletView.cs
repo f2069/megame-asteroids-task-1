@@ -75,6 +75,7 @@ namespace MegameAsteroids.View.Weapons {
                 return;
             }
 
+            _collider.enabled = false;
             _pool.Release(this);
 
             var damageComponent = other.GetComponent<IDamagable>();
