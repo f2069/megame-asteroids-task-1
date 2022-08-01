@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MegameAsteroids.View.Managers {
     public class GameSession : MonoBehaviour {
-        public static GameSession I { get; private set; }
+        public static GameSession Instance { get; private set; }
 
         public bool NewGameWasStarted { get; set; }
 
@@ -18,7 +18,7 @@ namespace MegameAsteroids.View.Managers {
                 return;
             }
 
-            I = this;
+            Instance = this;
             LoadSettings();
 
             // save session
@@ -26,8 +26,8 @@ namespace MegameAsteroids.View.Managers {
         }
 
         private void OnDestroy() {
-            if (I == this) {
-                I = null;
+            if (Instance == this) {
+                Instance = null;
             }
         }
 
@@ -38,7 +38,7 @@ namespace MegameAsteroids.View.Managers {
         }
 
         private void LoadSettings() {
-            AudioUtils.I.SfxSource.volume = GameSettings.I.SfxVolume / 100;
+            AudioUtils.Instance.SfxSource.volume = GameSettings.Instance.SfxVolume / 100;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MegameAsteroids.Core.Utils {
 
         private static AudioUtils _instance;
 
-        public static AudioUtils I {
+        public static AudioUtils Instance {
             get {
                 if (_instance != null) {
                     return _instance;

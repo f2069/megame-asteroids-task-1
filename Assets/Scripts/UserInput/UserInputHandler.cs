@@ -29,7 +29,7 @@ namespace MegameAsteroids.UserInput {
             => !_isLocked;
 
         private void Start() {
-            _gameSettings = GameSettings.I;
+            _gameSettings = GameSettings.Instance;
 
             _trash.Retain(_gameSettings.InputWithMouse.Subscribe(OnInputTypeChange, true));
         }

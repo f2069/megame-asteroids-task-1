@@ -10,7 +10,7 @@ namespace MegameAsteroids.Core.Utils {
 
         private static SpawnUtils _instance;
 
-        public static SpawnUtils I => _instance ??= new SpawnUtils();
+        public static SpawnUtils Instance => _instance ??= new SpawnUtils();
 
         private SpawnUtils() {
         }

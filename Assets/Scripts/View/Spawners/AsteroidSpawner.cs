@@ -38,7 +38,7 @@ namespace MegameAsteroids.View.Spawners {
         private IAsteroid CreateAsteroid(AsteroidLevel level) {
             var data = prefabs.Find(item => item.Level == level);
 
-            var asteroidGo = SpawnUtils.I.Spawn(data.Prefab.transform, Vector3.zero).GetComponent<IAsteroid>();
+            var asteroidGo = SpawnUtils.Instance.Spawn(data.Prefab.transform, Vector3.zero).GetComponent<IAsteroid>();
 
             asteroidGo.SetPool(data.Pool);
 

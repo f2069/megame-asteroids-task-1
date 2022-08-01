@@ -28,8 +28,8 @@ namespace MegameAsteroids.View.UI {
         private void Start() {
             pauseManager.SetPause(true);
 
-            _gameSession = GameSession.I;
-            _gameSettings = GameSettings.I;
+            _gameSession = GameSession.Instance;
+            _gameSettings = GameSettings.Instance;
 
             continueButton.gameObject.SetActive(_gameSession.NewGameWasStarted);
             _controlsToggle.isOn = _gameSettings.InputWithMouse.Value;

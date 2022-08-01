@@ -32,7 +32,7 @@ namespace MegameAsteroids.View.Weapons {
             _movement = new BulletMovement(_camera, speed);
             _rigidBody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
-            _audioSource = AudioUtils.I.SfxSource;
+            _audioSource = AudioUtils.Instance.SfxSource;
 
             _maxDistance = _camera.ViewportToWorldPoint(Vector3.right).x * 2;
         }

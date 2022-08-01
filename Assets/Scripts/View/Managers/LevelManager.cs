@@ -14,7 +14,7 @@ namespace MegameAsteroids.View.Managers {
         private GameSession _gameSession;
 
         private void Start() {
-            _gameSession = GameSession.I;
+            _gameSession = GameSession.Instance;
 
             if (!_gameSession.NewGameWasStarted) {
                 return;
@@ -31,8 +31,8 @@ namespace MegameAsteroids.View.Managers {
         private void OnDestroy() {
             _trash.Dispose();
 
-            AudioUtils.I.Dispose();
-            SpawnUtils.I.Dispose();
+            AudioUtils.Instance.Dispose();
+            SpawnUtils.Instance.Dispose();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace MegameAsteroids.View.Managers {
         private void Start() {
             _trash.Retain(globalUserInput.SubscribeOnEscape(OnEscape));
 
-            _gameSession = GameSession.I;
+            _gameSession = GameSession.Instance;
         }
 
         private void OnDestroy()

@@ -30,7 +30,7 @@ namespace MegameAsteroids.View.Armory {
         }
 
         private IBullet CreateBullet() {
-            var bulletGo = SpawnUtils.I.Spawn(prefab, spawnPosition.position)
+            var bulletGo = SpawnUtils.Instance.Spawn(prefab, spawnPosition.position)
                                      .GetComponent<IBullet>();
 
             bulletGo.SetPool(BulletPool);

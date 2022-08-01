@@ -85,9 +85,9 @@ namespace MegameAsteroids.View.Creatures.Player {
 
         private void Start() {
             _audioSource.clip = thrustEffect;
-            _audioSource.volume = GameSettings.I.SfxVolume / 100;
+            _audioSource.volume = GameSettings.Instance.SfxVolume / 100;
 
-            _audioSfxSource = AudioUtils.I.SfxSource;
+            _audioSfxSource = AudioUtils.Instance.SfxSource;
 
             _trash.Retain(_userInput.SubscribeOnAcceleration(OnAcceleration));
             _trash.Retain(_userInput.SubscribeOnRotate(OnRotateDirection));

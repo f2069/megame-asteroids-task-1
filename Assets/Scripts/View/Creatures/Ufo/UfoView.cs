@@ -50,11 +50,11 @@ namespace MegameAsteroids.View.Creatures.Ufo {
             _heathComponent = GetComponent<IDamagable>();
             _rewardComponent = GetComponent<IReward>();
             _audioSource = GetComponent<AudioSource>();
-            _audioSfxSource = AudioUtils.I.SfxSource;
+            _audioSfxSource = AudioUtils.Instance.SfxSource;
         }
 
         private void Start() {
-            _audioSource.volume = GameSettings.I.SfxVolume / 100;
+            _audioSource.volume = GameSettings.Instance.SfxVolume / 100;
 
             _trash.Retain(_heathComponent.SubscribeOnDead(OnDead));
         }

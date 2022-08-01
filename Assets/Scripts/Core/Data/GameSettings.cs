@@ -10,7 +10,7 @@ namespace MegameAsteroids.Core.Data {
         public float SfxVolume => sfxVolume;
         public BoolObservableProperty InputWithMouse => inputWithMouse;
 
-        public static GameSettings I => _instance == null ? LoadGameSettings() : _instance;
+        public static GameSettings Instance => _instance == null ? LoadGameSettings() : _instance;
 
         private static GameSettings _instance;
 

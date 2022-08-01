@@ -63,7 +63,7 @@ namespace MegameAsteroids.View.Environment {
             _heathComponent = GetComponent<IDamagable>();
             _rewardComponent = GetComponent<IReward>();
 
-            _audioSource = AudioUtils.I.SfxSource;
+            _audioSource = AudioUtils.Instance.SfxSource;
         }
 
         private void Start() {
